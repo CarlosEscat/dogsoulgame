@@ -10,7 +10,7 @@ class DogsListContainer extends Component {
       .then(response => {
         const action = {
           type: 'SET_BREED_STATE',
-          payload: response.body.message
+          payload: Object.keys(response.body.message)
         }
         this.props.dispatch(action)
       })
@@ -24,7 +24,7 @@ class DogsListContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    breeds: state.breeds
+    breeds: state
   }
 }
 
