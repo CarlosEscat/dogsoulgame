@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default class DogsList extends Component {
   
   renderDogBreed(breed) {
     return (
       <li key={breed}>
-        {/* <Link to={ `/dog-breeds/${breed}` }>{breed}</Link> */}
+        {<Link to={ `/dog-breeds/${breed}` }>{breed}</Link> }
       </li>
     )
     
@@ -16,10 +16,17 @@ export default class DogsList extends Component {
     return (
       <div className="dogs-list">
         <h1>Dogs List</h1>
-        {/* {dogBreeds === null ? 'Loading...':
+        {/* {{dogBreeds === null ? 'Loading...':
         <ul>
           {dogBreeds.map(this.renderDogBreed)}
-        </ul>} */}
+        </ul>} } */}
+
+        { !dogBreeds && 'Loading...' }
+
+        {
+          dogBreeds &&
+          <ul>{ dogBreeds.map(this.renderDogBreed) }</ul>
+        }
       </div>
     )
   }
