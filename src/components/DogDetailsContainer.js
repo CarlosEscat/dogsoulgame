@@ -17,13 +17,13 @@ class DogDetailsContainer extends Component {
   }
 
   render() {
-    return <DogDetails images={ this.props.images } breed='hound' /> // {this.props.match.params.breed}
+    return <DogDetails images={ this.props.imagesDetails } breed='hound' /> // {this.props.match.params.breed}
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    images: state.images
+    imagesDetails: state.imagesDetails
   }
 }
 
