@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 import DogsListContainer from './components/DogListContainer'
@@ -8,10 +9,10 @@ function App() {
   return (
     <Provider store={store}>
     <div className="App">
+          <h1>Dog Soul Game</h1>
+         <button>Start Game</button>
       <DogsListContainer />
     </div>
     </Provider>
   );
 }
-
-export default App;
