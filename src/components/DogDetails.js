@@ -1,20 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './DogDetails.css'
 
 export default function DogBreedImages (props) {
   const { images } = props
-  console.log('DogDetails props:', props)
 
   return (
-    <div className="dog-breed-images">
-      <h1>Dogs Breed Images</h1>
-
-      Images of the { props.breed } breed.
+    <div>
+      <h1>Images of the { props.breed } breed</h1>
       
       <Link to="/">Go back to the index</Link>
 
       <div>
-        { images && images.map(url => <img src={ url } alt="Dog" />) }
+        { images && images.map(url => <img className="dog-breed-images" src={ url } alt="Dog" />) }
         { !images && 'Loading...' }
       </div>
     </div>
