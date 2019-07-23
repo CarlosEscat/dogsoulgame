@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setBreedState } from '../actions';
 import request from 'superagent'
+import './DogCard.css'
 
 class DogCard extends Component {
   state = {
