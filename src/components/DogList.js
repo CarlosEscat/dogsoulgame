@@ -8,6 +8,8 @@ export default class DogsList extends Component {
     );
   }
   render() {
+    // const { breeds } = this.props
+
     return (
       <div className="dogs-list">
         {/* {breeds === null ? 'Loading...':
@@ -20,8 +22,6 @@ export default class DogsList extends Component {
         <ul>
           {dogBreeds.map(this.renderDogBreed)}
         </ul>} } */}
-
-        {/* { !dogBreeds && 'Loading...' } */}
 
         {/* {
           dogBreeds &&
