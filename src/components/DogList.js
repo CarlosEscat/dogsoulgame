@@ -11,8 +11,6 @@ class DogsList extends Component {
     return (
       <div className="dogs-list">
 
-        <h1>Dogs List</h1>
-
         {!Array.isArray(breeds) ? 'Loading...':
         <ul>
           {breeds.map(breed => <DogCard breed={breed}/>)}
