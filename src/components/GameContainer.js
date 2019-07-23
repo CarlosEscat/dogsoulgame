@@ -4,41 +4,51 @@ import { connect } from 'react-redux';
 import request from 'superagent';
 
 class GameContainer extends Component {
+  state = { answer: '', correctAnswer: '' };
+
   randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return console.log(-1);
+    if (dataLength < 1 || dataLength === undefined) return -1;
 
     return Math.floor(Math.random() * dataLength);
   };
 
   componentDidMount() {
-    request
-      .get('https://dog.ceo/api/breeds/image/random')
-      .then(res => console.log(res.body.message.split('/')[4]))
-      .catch(console.error);
+    this.renderRandomImage();
   }
 
-  renderRandomImage = randomNumber => {
+  renderRandomImage = () => {
     const url = 'https://dog.ceo/api/breeds/image/random';
-    console.log(url.split('/'));
+
+    return request
+      .get(url)
+      .then(res =>
+        this.setState({
+          answer: res.body.message,
+          correctAnswer: res.body.message.split('/')[4]
+        })
+      )
+      .catch(console.error);
   };
 
   render() {
-    console.log(this.props.breeds);
-    this.renderRandomImage(this.props.breeds.length);
-
     return (
       <div>
         <NavLink to="/">
           <button>Back</button>
         </NavLink>
-        <br /> Hallo
+        <br />
+        {this.state.answer === '' ? (
+          <p>loading</p>
+        ) : (
+          <img alt="random dog" src={this.state.answer} />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  breeds: state.breeds
-});
+// const mapStateToProps = state => ({
+//   breeds: state.breeds
+// });
 
-export default connect(mapStateToProps)(GameContainer);
+export default connect()(GameContainer);
