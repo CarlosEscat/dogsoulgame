@@ -31,7 +31,7 @@ class SecondGameContainer extends Component {
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
         this.setState({
-          url: res.body.message,
+          name: res.body.message,
           correctName: res.body.message.split('/')[4]
         })
       )
