@@ -1,33 +1,43 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setBreedState } from '../actions';
 
-export default class DogsList extends Component {
+class DogsList extends Component {
   renderDogBreed(breed) {
     return (
       <li key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</li>
     );
   }
   render() {
+    const breeds = this.props.breeds
+    
     return (
+      
       <div className="dogs-list">
-        {/* {breeds === null ? 'Loading...':
-        <ul>
-          {breeds.map(this.renderDogBreed)}
-        </ul>} */}
+        
 
         <h1>Dogs List</h1>
-        {/* {{dogBreeds === null ? 'Loading...':
+
+        {!Array.isArray(breeds) ? 'Loading...':
         <ul>
-          {dogBreeds.map(this.renderDogBreed)}
-        </ul>} } */}
-
-        {/* { !dogBreeds && 'Loading...' } */}
-
-        {/* {
-          dogBreeds &&
-          <ul>{ dogBreeds.map(this.renderDogBreed) }</ul>
-        } */}
+          {breeds.map(this.renderDogBreed)}
+        </ul>}
+        
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  
+  return {
+    
+    breeds: state.reducer
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { setBreedState }
+)(DogsList);
