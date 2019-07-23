@@ -8,12 +8,6 @@ import SuccessRate from './SuccessRate';
 class GameContainer extends Component {
   state = { answer: '', correctAnswer: '' };
 
-  randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return -1;
-
-    return Math.floor(Math.random() * dataLength);
-  };
-
   componentDidMount() {
     this.renderRandomImage();
   }
@@ -37,9 +31,9 @@ class GameContainer extends Component {
 
   successToPercentage = answers => {
     const successRate =
-      (answers.length / answers.filter(answer => answer === true).length) * 100;
+      (answers.filter(answer => answer === true).length / answers.length) * 100;
 
-    return answers.length < 1 ? 0 : successRate;
+    return answers.length < 1 ? 0 : successRate.toFixed(0);
   };
 
   render() {
@@ -61,7 +55,8 @@ class GameContainer extends Component {
         )}
         <br />
         <button onClick={this.handleSubmit}>Next</button>
-        <DisplayAnswers answer="affenpinscher" />
+
+        <DisplayAnswers answer={this.state.correctAnswer} />
       </div>
     );
   }
