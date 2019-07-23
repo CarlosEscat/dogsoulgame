@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setBreedState } from '../actions';
+import DogCard from './DogCard'
 
 class DogsList extends Component {
-  renderDogBreed(breed) {
-    return (
-      <li key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</li>
-    );
-  }
+  
   render() {
     const breeds = this.props.breeds
 
     return (
       <div className="dogs-list">
 
-        <h1>Dogs List</h1>
-
         {!Array.isArray(breeds) ? 'Loading...':
         <ul>
-          {breeds.map(this.renderDogBreed)}
+          {breeds.map(breed => <DogCard breed={breed}/>)}
         </ul>}
        
       </div>

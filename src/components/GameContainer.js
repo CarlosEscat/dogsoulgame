@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
-import DisplayAnswers from './DisplayAnswers'
+import DisplayAnswers from './DisplayAnswers';
+import SuccessRate from './SuccessRate';
+
+import './GameContainer.css';
 
 class GameContainer extends Component {
-  state = { answer: '', correctAnswer: '' };
+  state = { url: '', correctAnswer: '', answerIncorrectly: false };
 
   componentDidMount() {
     this.renderRandomImage();
@@ -16,7 +19,7 @@ class GameContainer extends Component {
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
         this.setState({
-          answer: res.body.message,
+          url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
         })
       )
@@ -28,32 +31,73 @@ class GameContainer extends Component {
     this.renderRandomImage();
   };
 
+  successToPercentage = answers => {
+    const successRate =
+      (answers.filter(answer => answer === true).length / answers.length) * 100;
+
+    return answers.length < 1 ? 0 : successRate.toFixed(0);
+  };
+
+  showCorrectAnswer = () => {
+    const buttons = document.getElementsByTagName('button');
+
+    if (this.state.answerIncorrectly === true) {
+      buttons[0].style.pointerEvents = 'none';
+      buttons[1].style.pointerEvents = 'none';
+      buttons[2].style.pointerEvents = 'none';
+      buttons[3].style.pointerEvents = 'none';
+      buttons[4].style.pointerEvents = 'none';
+
+      return <h1>{this.state.correctAnswer}</h1>;
+    } else if (buttons.length > 2) {
+      buttons[0].style.pointerEvents = 'auto';
+      buttons[1].style.pointerEvents = 'auto';
+      buttons[2].style.pointerEvents = 'auto';
+      buttons[3].style.pointerEvents = 'auto';
+      buttons[4].style.pointerEvents = 'auto';
+    }
+  };
+
+  answeredIncorrectly = () => {
+    return this.setState({
+      answerIncorrectly: !this.state.answerIncorrectly
+    });
+  };
+
   render() {
     return (
       <div>
+        <SuccessRate
+          success={this.successToPercentage(this.props.userAnswers)}
+        />
+
         <NavLink to="/">
-          <button>Back</button>
+          <button className='navigation-button'>Back</button>
         </NavLink>
 
-        <br /> 
+        {this.showCorrectAnswer()}
+
         <br />
-        {this.state.answer === '' ? (
+        {this.state.url === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="dog" src={this.state.answer} />
+          <img alt="dog" className="dog-game-image" src={this.state.url} />
         )}
         <br />
-        <button onClick={this.handleSubmit}>Next</button>
+        <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
 
-        <DisplayAnswers answer={this.state.correctAnswer}/>
-
+        <DisplayAnswers
+          answer={this.state.correctAnswer}
+          renderRandomImage={this.renderRandomImage}
+          incorrectState={this.answeredIncorrectly}
+        />
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   breeds: state.breeds
-// });
+const mapStateToProps = state => ({
+  userAnswers: state.userAnswers
+});
 
-export default connect()(GameContainer);
+export default connect(mapStateToProps)(GameContainer);
