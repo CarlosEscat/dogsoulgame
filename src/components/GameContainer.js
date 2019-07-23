@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
-import DisplayAnswers from './DisplayAnswers'
+import DisplayAnswers from './DisplayAnswers';
+import SuccessRate from './SuccessRate';
 
 class GameContainer extends Component {
   state = { answer: '', correctAnswer: '' };
@@ -34,15 +35,23 @@ class GameContainer extends Component {
     this.renderRandomImage();
   };
 
+  successToPercentage = answers => {
+    const successRate =
+      (answers.length / answers.filter(answer => answer === true).length) * 100;
+
+    return answers.length < 1 ? 0 : successRate;
+  };
+
   render() {
     return (
       <div>
+        <SuccessRate
+          success={this.successToPercentage(this.props.userAnswers)}
+        />
+
         <NavLink to="/">
           <button>Back</button>
         </NavLink>
-
-        <br /> 
-        >
 
         <br />
         {this.state.answer === '' ? (
@@ -52,16 +61,14 @@ class GameContainer extends Component {
         )}
         <br />
         <button onClick={this.handleSubmit}>Next</button>
-
-        <DisplayAnswers answer='affenpinscher'/
-
+        <DisplayAnswers answer="affenpinscher" />
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   breeds: state.breeds
-// });
+const mapStateToProps = state => ({
+  userAnswers: state.userAnswers
+});
 
-export default connect()(GameContainer);
+export default connect(mapStateToProps)(GameContainer);
