@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addUserAnswer } from '../actions/userAnswers'
+import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
 
@@ -28,9 +29,9 @@ class DisplayAnswers extends React.Component {
     const randomAnswers = [name, randomName1, randomName2].sort()
     return (
       <div>
-        <button onClick={this.handleClick} value={randomAnswers[0]}>{randomAnswers[0]}</button>
-        <button onClick={this.handleClick} value={randomAnswers[1]}>{randomAnswers[1]}</button>
-        <button onClick={this.handleClick} value={randomAnswers[2]}>{randomAnswers[2]}</button>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[0]}>{randomAnswers[0]}</button>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[1]}>{randomAnswers[1]}</button>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[2]}>{randomAnswers[2]}</button>
       </div>
     )
   }

@@ -46,7 +46,7 @@ class GameContainer extends Component {
         />
 
         <NavLink to="/">
-          <button>Back</button>
+          <button className='navigation-button'>Back</button>
         </NavLink>
 
         <br />
@@ -56,7 +56,7 @@ class GameContainer extends Component {
           <img alt="dog" className="dog-game-image" src={this.state.answer} />
         )}
         <br />
-        <button onClick={this.handleSubmit}>Next</button>
+        <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
 
         <DisplayAnswers answer={this.state.correctAnswer} method={this.renderRandomImage}/>
       </div>
