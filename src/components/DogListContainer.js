@@ -31,11 +31,9 @@ class DogsListContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    breeds: state.breeds
-  };
-};
+const mapStateToProps = state => ({
+  breeds: state.breeds
+});
 
 export default connect(
   mapStateToProps,

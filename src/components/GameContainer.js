@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
+
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
+import { gameOneUrl } from '../actions';
 
 import './GameContainer.css';
 
@@ -17,12 +19,13 @@ class GameContainer extends Component {
   renderRandomImage = () =>
     request
       .get('https://dog.ceo/api/breeds/image/random')
-      .then(res =>
-        this.setState({
+      .then(res => {
+        // this.props.gameOneUrl(res.body.message);
+        return this.setState({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
-        })
-      )
+        });
+      })
       .catch(console.error);
 
   handleSubmit = event => {
@@ -58,11 +61,10 @@ class GameContainer extends Component {
     }
   };
 
-  answeredIncorrectly = () => {
-    return this.setState({
+  answeredIncorrectly = () =>
+    this.setState({
       answerIncorrectly: !this.state.answerIncorrectly
     });
-  };
 
   render() {
     return (
@@ -72,7 +74,7 @@ class GameContainer extends Component {
         />
 
         <NavLink to="/">
-          <button className='navigation-button'>Back</button>
+          <button className="navigation-button">Back</button>
         </NavLink>
 
         {this.showCorrectAnswer()}
@@ -84,7 +86,9 @@ class GameContainer extends Component {
           <img alt="dog" className="dog-game-image" src={this.state.url} />
         )}
         <br />
-        <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
+        <button className="navigation-button" onClick={this.handleSubmit}>
+          Next
+        </button>
 
         <DisplayAnswers
           answer={this.state.correctAnswer}
@@ -100,4 +104,7 @@ const mapStateToProps = state => ({
   userAnswers: state.userAnswers
 });
 
-export default connect(mapStateToProps)(GameContainer);
+export default connect(
+  mapStateToProps,
+  { gameOneUrl }
+)(GameContainer);

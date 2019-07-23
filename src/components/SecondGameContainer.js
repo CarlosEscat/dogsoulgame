@@ -5,21 +5,20 @@ import request from 'superagent';
 import SuccessRate from './SuccessRate';
 
 class SecondGameContainer extends Component {
-
-  state = { name: '', correctName: '', AdditionalUrl: '', AdditionalUrl2: '' };
+  state = { url: '', correctName: '', AdditionalUrl: '', AdditionalUrl2: '' };
 
   handleSubmit = event => {
     event.preventDefault();
 
     this.renderRightImage();
-    this.renderRandomImage()
-    this.renderRandomImage2()
+    this.renderRandomImage();
+    this.renderRandomImage2();
   };
 
   componentDidMount() {
     this.renderRightImage();
-    this.renderRandomImage()
-    this.renderRandomImage2()
+    this.renderRandomImage();
+    this.renderRandomImage2();
   }
 
   renderRandomImage = () =>
@@ -30,7 +29,7 @@ class SecondGameContainer extends Component {
           AdditionalUrl: res.body.message
         })
       )
-      .catch(console.error)
+      .catch(console.error);
 
   renderRandomImage2 = () =>
     request
@@ -40,14 +39,14 @@ class SecondGameContainer extends Component {
           AdditionalUrl2: res.body.message
         })
       )
-      .catch(console.error)
+      .catch(console.error);
 
   renderRightImage = () =>
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
         this.setState({
-          name: res.body.message,
+          url: res.body.message,
           correctName: res.body.message.split('/')[4]
         })
       )
@@ -61,7 +60,7 @@ class SecondGameContainer extends Component {
         /> */}
 
         <NavLink to="/">
-          <button className='navigation-button'>Back</button>
+          <button className="navigation-button">Back</button>
         </NavLink>
 
         <h2>Choose the photo of the {this.state.correctName}</h2>
@@ -69,20 +68,29 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-            <img alt="dog" className="dog-game-image" src={this.state.name} />
-          )}
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl} />
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl2} />
+          <img alt="dog" className="dog-game-image" src={this.state.url} />
+        )}
+        <img
+          alt="dog"
+          className="dog-game-image"
+          src={this.state.AdditionalUrl}
+        />
+        <img
+          alt="dog"
+          className="dog-game-image"
+          src={this.state.AdditionalUrl2}
+        />
         <br />
-        <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
+        <button className="navigation-button" onClick={this.handleSubmit}>
+          Next
+        </button>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers
-
 });
 
 export default connect(mapStateToProps)(SecondGameContainer);
