@@ -1,9 +1,4 @@
-.dog-game-image {
-  height: 400px;
-  width: 400px;
-}
-
-.navigation-button {
+.answer-button {
   min-width: 120px;
   min-height: 40px;
   margin: 10px;
