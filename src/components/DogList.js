@@ -11,11 +11,9 @@ class DogsList extends Component {
   }
   render() {
     const breeds = this.props.breeds
-    
+
     return (
-      
       <div className="dogs-list">
-        
 
         <h1>Dogs List</h1>
 
@@ -23,7 +21,7 @@ class DogsList extends Component {
         <ul>
           {breeds.map(this.renderDogBreed)}
         </ul>}
-        
+       
       </div>
     );
   }
@@ -33,7 +31,7 @@ const mapStateToProps = state => {
   
   return {
     
-    breeds: state.reducer
+    breeds: state.breeds
   };
 };
 

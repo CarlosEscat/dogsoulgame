@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import DogsList from './DogList';
+import DogDetailsContainer from './DogDetailsContainer'
 
 import { setBreedState } from '../actions';
 
@@ -16,13 +18,21 @@ class DogsListContainer extends Component {
   }
 
   render() {
-    return <DogsList dogBreeds={this.props.breeds} />;
+    return (
+      <div>
+        <NavLink to="/gameone">
+          <button>Start Game</button>
+        </NavLink>
+        <DogsList dogBreeds={this.props.breeds} />
+        <DogDetailsContainer />
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    breeds: state.reducer
+    breeds: state.breeds
   };
 };
 
