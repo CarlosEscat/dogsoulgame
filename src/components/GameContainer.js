@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
+import DisplayAnswers from './DisplayAnswers'
 
 class GameContainer extends Component {
   randomIndex = dataLength => {
@@ -23,7 +24,6 @@ class GameContainer extends Component {
   };
 
   render() {
-    console.log(this.props.breeds);
     this.renderRandomImage(this.props.breeds.length);
 
     return (
@@ -32,6 +32,7 @@ class GameContainer extends Component {
           <button>Back</button>
         </NavLink>
         <br /> Hallo
+        <DisplayAnswers answer='affenpinscher'/>
       </div>
     );
   }
