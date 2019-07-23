@@ -1,31 +1,40 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import request from 'superagent'
-import DogsList from './DogList'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import request from 'superagent';
+import DogsList from './DogList';
+
+import { setBreedState } from '../actions';
 
 class DogsListContainer extends Component {
   componentDidMount() {
     request
       .get('https://dog.ceo/api/breeds/list/all')
       .then(response => {
-        const action = {
-          type: 'SET_BREED_STATE',
-          payload: Object.keys(response.body.message)
-        }
-        this.props.dispatch(action)
+        this.props.setBreedState(Object.keys(response.body.message));
       })
-      .catch(console.error)
+      .catch(console.error);
   }
 
   render() {
-    return <DogsList dogBreeds={this.props.breeds} />
+    return (
+      <div>
+        <NavLink to="/gameone">
+          <button>Start Game</button>
+        </NavLink>
+        <DogsList dogBreeds={this.props.breeds} />
+      </div>
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    breeds: state
-  }
-}
+    breeds: state.breeds
+  };
+};
 
-export default connect(mapStateToProps)(DogsListContainer)
+export default connect(
+  mapStateToProps,
+  { setBreedState }
+)(DogsListContainer);
