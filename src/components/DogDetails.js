@@ -7,7 +7,7 @@ export default function DogBreedImages (props) {
 
   return (
     <div>
-      <h1>Images of the { props.breed } breed</h1>
+      <h2>Images of the { props.breed }</h2>
       
       <Link to="/">Go back to the index</Link>
 
