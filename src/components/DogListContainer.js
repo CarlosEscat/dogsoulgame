@@ -20,7 +20,10 @@ class DogsListContainer extends Component {
     return (
       <div>
         <NavLink to="/gameone">
-          <button>Start Game</button>
+          <button>Start First Game</button>
+        </NavLink>
+        <NavLink to="/gametwo">
+          <button>Start Second Game</button>
         </NavLink>
         <DogsList dogBreeds={this.props.breeds} />
       </div>
