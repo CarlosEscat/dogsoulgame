@@ -23,12 +23,9 @@
   color: #61dafb;
 }
 
-img {
-  max-width: 150px;
-}
-
-main {
+.breedList {
   columns: 4 auto;
+  
 }
 
 @keyframes App-logo-spin {
