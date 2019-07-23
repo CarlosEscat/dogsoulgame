@@ -7,12 +7,6 @@ import DisplayAnswers from './DisplayAnswers'
 class GameContainer extends Component {
   state = { answer: '', correctAnswer: '' };
 
-  randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return -1;
-
-    return Math.floor(Math.random() * dataLength);
-  };
-
   componentDidMount() {
     this.renderRandomImage();
   }
@@ -42,8 +36,6 @@ class GameContainer extends Component {
         </NavLink>
 
         <br /> 
-        >
-
         <br />
         {this.state.answer === '' ? (
           <p>loading</p>
@@ -53,7 +45,7 @@ class GameContainer extends Component {
         <br />
         <button onClick={this.handleSubmit}>Next</button>
 
-        <DisplayAnswers answer='affenpinscher'/
+        <DisplayAnswers answer={this.state.correctAnswer}/>
 
       </div>
     );
