@@ -11,6 +11,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Dog Soul Game</h1>
+      <h2>Dogs List</h2>
       <main>
         <Route exact path="/" component={DogsListContainer} />
         <Route exact path="/gameone" component={GameContainer} />
