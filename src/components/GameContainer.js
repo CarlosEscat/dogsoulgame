@@ -56,7 +56,7 @@ class GameContainer extends Component {
         <br />
         <button onClick={this.handleSubmit}>Next</button>
 
-        <DisplayAnswers answer={this.state.correctAnswer} />
+        <DisplayAnswers answer={this.state.correctAnswer} method={this.renderRandomImage}/>
       </div>
     );
   }
