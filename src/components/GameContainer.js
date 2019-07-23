@@ -5,6 +5,8 @@ import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 
+import './GameContainer.css';
+
 class GameContainer extends Component {
   state = { answer: '', correctAnswer: '' };
 
@@ -51,7 +53,7 @@ class GameContainer extends Component {
         {this.state.answer === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="dog" src={this.state.answer} />
+          <img alt="dog" className="dog-game-image" src={this.state.answer} />
         )}
         <br />
         <button onClick={this.handleSubmit}>Next</button>
