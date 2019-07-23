@@ -12,7 +12,7 @@ export default class DogsList extends Component {
     
   }
   render() {
-    const { breeds } = this.props
+    // const { breeds } = this.props
     return (
       <div className="dogs-list">
 
@@ -27,12 +27,12 @@ export default class DogsList extends Component {
           {dogBreeds.map(this.renderDogBreed)}
         </ul>} } */}
 
-        { !dogBreeds && 'Loading...' }
+        {/* { !dogBreeds && 'Loading...' }
 
         {
           dogBreeds &&
           <ul>{ dogBreeds.map(this.renderDogBreed) }</ul>
-        }
+        } */}
 
       </div>
     )
