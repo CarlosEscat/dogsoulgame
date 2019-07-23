@@ -8,8 +8,10 @@ class DisplayAnswers extends React.Component {
     event.preventDefault()
     if (this.props.answer === event.target.value) {
       this.props.addUserAnswer(true)
+      this.props.method();
     } else {
       this.props.addUserAnswer(false)
+      setTimeout(this.props.method, 2000);
     }
   }
 
