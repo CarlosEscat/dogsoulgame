@@ -3,35 +3,38 @@ import { connect } from 'react-redux'
 import { addUserAnswer } from '../actions/userAnswers'
 
 class DisplayAnswers extends React.Component {
-  constructor(props) {
-    super(props);
 
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
+  handleClick = (event) => {
+    event.preventDefault()
+    if (this.props.answer === event.target.value) {
+      this.props.addUserAnswer(true)
+    } else {
+      this.props.addUserAnswer(false)
+    }
   }
 
-  handleClick() {
-    this.props.addUserAnswer(true)
-    console.log('Am adding to the state and this.props is:', this.props)
-  }
+  randomIndex = dataLength => {
+    if (dataLength < 1 || dataLength === undefined) return -1;
+
+    return Math.floor(Math.random() * dataLength);
+  };
 
   render() {
     const name = this.props.answer
-    const randomName1 = this.props.breeds[4];
-    const randomName2 = this.props.breeds[5];
-    console.log(name)
+    const randomName1 = this.props.breeds[this.randomIndex(this.props.breeds.length)];
+    const randomName2 = this.props.breeds[this.randomIndex(this.props.breeds.length)];
+    const randomAnswers = [name, randomName1, randomName2].sort()
     return (
       <div>
-        <button onClick={this.handleClick}>{name}</button>
-        <button onClick={this.handleClick}>{randomName1}</button>
-        <button onClick={this.handleClick}>{randomName2}</button>
+        <button onClick={this.handleClick} value={randomAnswers[0]}>{randomAnswers[0]}</button>
+        <button onClick={this.handleClick} value={randomAnswers[1]}>{randomAnswers[1]}</button>
+        <button onClick={this.handleClick} value={randomAnswers[2]}>{randomAnswers[2]}</button>
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log('State is:', state)
   return {
     userAnswers: state.userAnswers,
     breeds: state.breeds
