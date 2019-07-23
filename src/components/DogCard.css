@@ -1,7 +1,4 @@
-img {
+.listImages {
   max-width: 150px;
-}
-
-main {
-  columns: 4 auto;
+  
 }

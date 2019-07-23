@@ -21,8 +21,8 @@ class DogCard extends Component {
   render(){
     const { breed } = this.props
     return (
-      <div>
-        { this.state.url ? <img src={this.state.url} alt="Dog" key={`${breed}1`}/> : "Woof Woof"}
+      <div >
+        { this.state.url ? <img className='listImages' src={this.state.url} alt="Dog" key={`${breed}1`}/> : "Woof Woof"}
         <li key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</li>
       </div>
     )
