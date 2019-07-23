@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import request from 'superagent'
 import DogDetails from './DogDetails'
-
 import { addBreedImages } from '../actions/addBreedImages'
 
 class DogDetailsContainer extends Component {

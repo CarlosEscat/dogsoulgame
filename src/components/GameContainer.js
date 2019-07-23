@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
+import DisplayAnswers from './DisplayAnswers'
 
 class GameContainer extends Component {
   state = { answer: '', correctAnswer: '' };
@@ -39,6 +40,10 @@ class GameContainer extends Component {
         <NavLink to="/">
           <button>Back</button>
         </NavLink>
+
+        <br /> 
+        >
+
         <br />
         {this.state.answer === '' ? (
           <p>loading</p>
@@ -47,6 +52,9 @@ class GameContainer extends Component {
         )}
         <br />
         <button onClick={this.handleSubmit}>Next</button>
+
+        <DisplayAnswers answer='affenpinscher'/
+
       </div>
     );
   }
