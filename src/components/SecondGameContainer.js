@@ -6,6 +6,7 @@ import SuccessRate from './SuccessRate';
 
 class SecondGameContainer extends Component {
 
+
   state = { name: '', correctName: ''};
 
   randomIndex = dataLength => {
@@ -14,9 +15,11 @@ class SecondGameContainer extends Component {
     return Math.floor(Math.random() * dataLength);
   };
 
+
   handleSubmit = event => {
     event.preventDefault();
     this.renderRightImage();
+
   };
 
   componentDidMount() {
@@ -28,7 +31,7 @@ class SecondGameContainer extends Component {
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
         this.setState({
-          name: res.body.message,
+          url: res.body.message,
           correctName: res.body.message.split('/')[4]
         })
       )
@@ -42,7 +45,7 @@ class SecondGameContainer extends Component {
         /> */}
 
         <NavLink to="/">
-          <button className='navigation-button'>Back</button>
+          <button className="navigation-button">Back</button>
         </NavLink>
 
         <h2>Choose the photo of the {this.state.correctName}</h2>
@@ -50,20 +53,26 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
+
             <img alt="dog" className="dog-game-image" src={this.state.name} />
           )}
         <img alt="dog" className="dog-game-image" src={this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]} />
         <img alt="dog" className="dog-game-image" src={this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]} />
+
         <br />
-        <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
+        <button className="navigation-button" onClick={this.handleSubmit}>
+          Next
+        </button>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
+
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects
+
 });
 
 export default connect(mapStateToProps)(SecondGameContainer);
