@@ -16,11 +16,9 @@ class GameContainer extends Component {
     this.renderRandomImage();
   }
 
-  renderRandomImage = () => {
-    const url = 'https://dog.ceo/api/breeds/image/random';
-
-    return request
-      .get(url)
+  renderRandomImage = () =>
+    request
+      .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
         this.setState({
           answer: res.body.message,
@@ -28,6 +26,11 @@ class GameContainer extends Component {
         })
       )
       .catch(console.error);
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    this.renderRandomImage();
   };
 
   render() {
@@ -40,8 +43,10 @@ class GameContainer extends Component {
         {this.state.answer === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="random dog" src={this.state.answer} />
+          <img alt="dog" src={this.state.answer} />
         )}
+        <br />
+        <button onClick={this.handleSubmit}>Next</button>
       </div>
     );
   }
