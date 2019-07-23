@@ -6,41 +6,22 @@ import SuccessRate from './SuccessRate';
 
 class SecondGameContainer extends Component {
 
-  state = { name: '', correctName: '', AdditionalUrl: '', AdditionalUrl2: '' };
+  state = { name: '', correctName: ''};
+
+  randomIndex = dataLength => {
+    if (dataLength < 1 || dataLength === undefined) return -1;
+
+    return Math.floor(Math.random() * dataLength);
+  };
 
   handleSubmit = event => {
     event.preventDefault();
-
     this.renderRightImage();
-    this.renderRandomImage()
-    this.renderRandomImage2()
   };
 
   componentDidMount() {
     this.renderRightImage();
-    this.renderRandomImage()
-    this.renderRandomImage2()
   }
-
-  renderRandomImage = () =>
-    request
-      .get(`https://dog.ceo/api/breeds/image/random`)
-      .then(res =>
-        this.setState({
-          AdditionalUrl: res.body.message
-        })
-      )
-      .catch(console.error)
-
-  renderRandomImage2 = () =>
-    request
-      .get(`https://dog.ceo/api/breeds/image/random`)
-      .then(res =>
-        this.setState({
-          AdditionalUrl2: res.body.message
-        })
-      )
-      .catch(console.error)
 
   renderRightImage = () =>
     request
@@ -71,8 +52,8 @@ class SecondGameContainer extends Component {
         ) : (
             <img alt="dog" className="dog-game-image" src={this.state.name} />
           )}
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl} />
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl2} />
+        <img alt="dog" className="dog-game-image" src={this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]} />
+        <img alt="dog" className="dog-game-image" src={this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]} />
         <br />
         <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
       </div>
@@ -81,8 +62,8 @@ class SecondGameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  userAnswers: state.userAnswers
-
+  userAnswers: state.userAnswers,
+  imagesObjects: state.imagesObjects
 });
 
 export default connect(mapStateToProps)(SecondGameContainer);
