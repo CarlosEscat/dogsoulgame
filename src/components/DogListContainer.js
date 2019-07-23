@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import DogsList from './DogList';
 import DogDetailsContainer from './DogDetailsContainer'
@@ -19,10 +20,13 @@ class DogsListContainer extends Component {
   render() {
     return (
       <div>
+        <NavLink to="/gameone">
+          <button>Start Game</button>
+        </NavLink>
         <DogsList dogBreeds={this.props.breeds} />
         <DogDetailsContainer />
-    </div>
-    )
+      </div>
+    );
   }
 }
 
