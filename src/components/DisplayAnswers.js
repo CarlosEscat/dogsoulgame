@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addUserAnswer } from '../actions/userAnswers';
+import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
