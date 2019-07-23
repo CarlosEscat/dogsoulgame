@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import DogsList from './DogList';
+import DogDetailsContainer from './DogDetailsContainer'
 
 import { setBreedState } from '../actions';
 
@@ -23,6 +24,7 @@ class DogsListContainer extends Component {
           <button>Start Game</button>
         </NavLink>
         <DogsList dogBreeds={this.props.breeds} />
+        <DogDetailsContainer />
       </div>
     );
   }
