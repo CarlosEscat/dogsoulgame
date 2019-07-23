@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import request from 'superagent'
 import DogsList from './DogList'
+import DogDetailsContainer from './DogDetailsContainer';
 
 class DogsListContainer extends Component {
   componentDidMount() {
@@ -18,7 +19,12 @@ class DogsListContainer extends Component {
   }
 
   render() {
-    return <DogsList dogBreeds={this.props.breeds} />
+    return (
+      <div>
+        <DogsList dogBreeds={this.props.breeds} />
+        <DogDetailsContainer />
+      </div>
+    )
   }
 }
 
