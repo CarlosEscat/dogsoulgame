@@ -2,43 +2,58 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
+import DisplayAnswers from './DisplayAnswers'
 
 class GameContainer extends Component {
-  randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return console.log(-1);
-
-    return Math.floor(Math.random() * dataLength);
-  };
+  state = { answer: '', correctAnswer: '' };
 
   componentDidMount() {
-    request
-      .get('https://dog.ceo/api/breeds/image/random')
-      .then(res => console.log(res.body.message.split('/')[4]))
-      .catch(console.error);
+    this.renderRandomImage();
   }
 
-  renderRandomImage = randomNumber => {
-    const url = 'https://dog.ceo/api/breeds/image/random';
-    console.log(url.split('/'));
+  renderRandomImage = () =>
+    request
+      .get('https://dog.ceo/api/breeds/image/random')
+      .then(res =>
+        this.setState({
+          answer: res.body.message,
+          correctAnswer: res.body.message.split('/')[4]
+        })
+      )
+      .catch(console.error);
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    this.renderRandomImage();
   };
 
   render() {
-    console.log(this.props.breeds);
-    this.renderRandomImage(this.props.breeds.length);
-
     return (
       <div>
         <NavLink to="/">
           <button>Back</button>
         </NavLink>
-        <br /> Hallo
+
+        <br /> 
+        <br />
+        {this.state.answer === '' ? (
+          <p>loading</p>
+        ) : (
+          <img alt="dog" src={this.state.answer} />
+        )}
+        <br />
+        <button onClick={this.handleSubmit}>Next</button>
+
+        <DisplayAnswers answer={this.state.correctAnswer}/>
+
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  breeds: state.breeds
-});
+// const mapStateToProps = state => ({
+//   breeds: state.breeds
+// });
 
-export default connect(mapStateToProps)(GameContainer);
+export default connect()(GameContainer);
