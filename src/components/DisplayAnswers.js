@@ -6,15 +6,23 @@ import './DisplayAnswers.css';
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
-    if (this.props.answer === event.target.value) {
-      this.props.addUserAnswer(true);
-      this.props.renderRandomImage();
+
+    const {
+      addUserAnswer,
+      renderRandomImage,
+      incorrectState,
+      answer
+    } = this.props;
+
+    if (answer === event.target.value) {
+      addUserAnswer(true);
+      renderRandomImage();
     } else {
-      this.props.addUserAnswer(false);
-      this.props.incorrectState();
+      addUserAnswer(false);
+      incorrectState();
       setTimeout(() => {
-        this.props.renderRandomImage();
-        this.props.incorrectState();
+        renderRandomImage();
+        incorrectState();
       }, 2000);
     }
   };
@@ -26,15 +34,13 @@ class DisplayAnswers extends React.Component {
   };
 
   render() {
-    const name = this.props.answer;
-    const randomName1 = this.props.breeds[
-      this.randomIndex(this.props.breeds.length)
-    ];
-    const randomName2 = this.props.breeds[
-      this.randomIndex(this.props.breeds.length)
-    ];
+    const { answer, breeds } = this.props;
+
+    const randomName1 = breeds[this.randomIndex(breeds.length)];
+    const randomName2 = breeds[this.randomIndex(breeds.length)];
+
     const randomAnswers = [
-      name,
+      answer,
       randomName1 === undefined
         ? 'Go back and start the game again please!!!'
         : randomName1,
@@ -45,13 +51,13 @@ class DisplayAnswers extends React.Component {
 
     return (
       <div>
-        <button onClick={this.handleClick} value={randomAnswers[0]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[0]}>
           {randomAnswers[0]}
         </button>
-        <button onClick={this.handleClick} value={randomAnswers[1]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[1]}>
           {randomAnswers[1]}
         </button>
-        <button onClick={this.handleClick} value={randomAnswers[2]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[2]}>
           {randomAnswers[2]}
         </button>
       </div>

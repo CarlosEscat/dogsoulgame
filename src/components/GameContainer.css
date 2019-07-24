@@ -1,6 +1,7 @@
 .dog-game-image {
   height: 400px;
   width: 400px;
+  padding: 0 10px;
 }
 
 .navigation-button {
