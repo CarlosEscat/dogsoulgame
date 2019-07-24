@@ -11,7 +11,7 @@ import { addUserAnswer } from '../actions/userAnswers';
 import './GameContainer.css';
 
 class SecondGameContainer extends Component {
-  state = {answerIncorrectly: false };
+  state = { answerIncorrectly: false };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -26,12 +26,10 @@ class SecondGameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
-        this.props.gameUrl(
-          {
-            url: res.body.message,
-            correctAnswer: res.body.message.split('/')[4]
-          }
-        )
+        this.props.gameUrl({
+          url: res.body.message,
+          correctAnswer: res.body.message.split('/')[4]
+        })
       )
       .catch(console.error);
 
@@ -148,13 +146,13 @@ class SecondGameContainer extends Component {
 
   showCorrectAnswer = () => {
     if (this.state.answerIncorrectly === true) {
-      return <img alt="dog" className="dog-game-image" src={this.props.game.url} />;
+      return (
+        <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+      );
     }
   };
 
   render() {
-    console.log('state:', this.state.answerIncorrectly);
-
     return (
       <div>
         {this.showCorrectAnswer()}
