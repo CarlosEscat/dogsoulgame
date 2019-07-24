@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import SuccessRate from './SuccessRate';
-import randomIndex from './randomIndex'
+import randomIndex from './randomIndex';
 
 import { addUserAnswer } from '../actions/userAnswers';
 
@@ -64,12 +64,10 @@ class SecondGameContainer extends Component {
     if (this.props.imagesObjects.length !== 0) {
       urls = [
         this.state.name,
-        this.props.imagesObjects[
-          randomIndex(this.props.imagesObjects.length)
-        ].photos[randomIndex(5)],
-        this.props.imagesObjects[
-          randomIndex(this.props.imagesObjects.length)
-        ].photos[randomIndex(5)]
+        this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)]
+          .photos[randomIndex(5)],
+        this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)]
+          .photos[randomIndex(5)]
       ].sort();
     } else
       urls = [
@@ -84,10 +82,14 @@ class SecondGameContainer extends Component {
         ) : (
           <button
             style={{ background: 'none', border: 'none' }}
-            onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
+            onClick={
+              this.props.handleSubmit
+                ? this.props.handleSubmit
+                : this.checkForCorrect
+            }
           >
             <img
-              id={this.state.name}
+              id={urls[0]}
               alt="dog"
               className="dog-game-image"
               src={urls[0]}
@@ -101,7 +103,11 @@ class SecondGameContainer extends Component {
           <div>
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
+              onClick={
+                this.props.handleSubmit
+                  ? this.props.handleSubmit
+                  : this.checkForCorrect
+              }
             >
               <img
                 id={urls[1]}
@@ -113,7 +119,11 @@ class SecondGameContainer extends Component {
 
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
+              onClick={
+                this.props.handleSubmit
+                  ? this.props.handleSubmit
+                  : this.checkForCorrect
+              }
             >
               <img
                 id={urls[2]}
