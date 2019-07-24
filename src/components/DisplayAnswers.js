@@ -51,13 +51,13 @@ class DisplayAnswers extends React.Component {
 
     return (
       <div>
-        <button onClick={this.handleClick} value={randomAnswers[0]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[0]}>
           {randomAnswers[0]}
         </button>
-        <button onClick={this.handleClick} value={randomAnswers[1]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[1]}>
           {randomAnswers[1]}
         </button>
-        <button onClick={this.handleClick} value={randomAnswers[2]}>
+        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[2]}>
           {randomAnswers[2]}
         </button>
       </div>
