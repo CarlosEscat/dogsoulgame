@@ -78,9 +78,9 @@ class SecondGameContainer extends Component {
       ];
 
     return (
-      <div>
+      <span>
         <h2>Choose the photo of the {this.props.game.correctAnswer}</h2>
-        {this.props.game.name === '' ? (
+        {this.state.name === '' ? (
           <p>loading</p>
         ) : (
           <button
@@ -103,7 +103,7 @@ class SecondGameContainer extends Component {
         {this.props.imagesObjects.length === 0 ? (
           <h1>Stop</h1>
         ) : (
-          <div>
+          <span>
             <button
               style={{ background: 'none', border: 'none' }}
               onClick={
@@ -135,14 +135,14 @@ class SecondGameContainer extends Component {
                 src={urls[2]}
               />
             </button>
-          </div>
+          </span>
         )}
 
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
         </button>
-      </div>
+      </span>
     );
   };
 
