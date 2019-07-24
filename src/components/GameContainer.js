@@ -20,7 +20,6 @@ class GameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
-        // this.props.gameOneUrl(res.body.message);
         return this.setState({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
@@ -47,17 +46,17 @@ class GameContainer extends Component {
     if (this.state.answerIncorrectly === true) {
       buttons[0].style.pointerEvents = 'none';
       buttons[1].style.pointerEvents = 'none';
-      buttons[2].style.pointerEvents = 'none';
-      buttons[3].style.pointerEvents = 'none';
-      buttons[4].style.pointerEvents = 'none';
+      // buttons[2].style.pointerEvents = 'none';
+      // buttons[3].style.pointerEvents = 'none';
+      // buttons[4].style.pointerEvents = 'none';
 
       return <h1>{this.state.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
       buttons[0].style.pointerEvents = 'auto';
       buttons[1].style.pointerEvents = 'auto';
-      buttons[2].style.pointerEvents = 'auto';
-      buttons[3].style.pointerEvents = 'auto';
-      buttons[4].style.pointerEvents = 'auto';
+      // buttons[2].style.pointerEvents = 'auto';
+      // buttons[3].style.pointerEvents = 'auto';
+      // buttons[4].style.pointerEvents = 'auto';
     }
   };
 
@@ -94,6 +93,7 @@ class GameContainer extends Component {
           answer={this.state.correctAnswer}
           renderRandomImage={this.renderRandomImage}
           incorrectState={this.answeredIncorrectly}
+          handleSubmit = {this.props.handleSubmit}
         />
       </div>
     );
