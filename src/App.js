@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-
 import DogsListContainer from './components/DogListContainer'
 import DogDetailsContainer from './components/DogDetailsContainer'
 import SecondGameContainer from './components/SecondGameContainer'
@@ -15,8 +14,8 @@ export default function App() {
       <h1>Dog Soul Game</h1>
       <h2>Dogs List</h2>
       <main>
-        <div className='breedList'>
-        <Route exact path="/" component={DogsListContainer} />
+        <div className="breedList">
+          <Route exact path="/" component={DogsListContainer} />
         </div>
         <Route exact path="/gameone" component={GameContainer} />
         <Route exact path="/gametwo" component={SecondGameContainer} />
