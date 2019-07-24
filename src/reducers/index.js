@@ -5,6 +5,7 @@ import imagesDetails from './imagesDetails'
 import userAnswers from './userAnswers'
 import imagesObjects from './imagesObjects'
 import gameOne from './gameOne';
+import BreedsAlreadySeen from './breedsOrderGame'
 
-export default combineReducers({ breeds, imagesDetails, userAnswers, imagesObjects, gameOne });
+export default combineReducers({ breeds, imagesDetails, userAnswers, imagesObjects, gameOne, BreedsAlreadySeen });
 

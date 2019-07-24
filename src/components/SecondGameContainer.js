@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
-import SuccessRate from './SuccessRate';
+//import SuccessRate from './SuccessRate';
 
 class SecondGameContainer extends Component {
 

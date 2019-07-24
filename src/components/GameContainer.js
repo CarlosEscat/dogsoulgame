@@ -6,6 +6,7 @@ import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameOneUrl } from '../actions';
+import { BreedsAlreadySeen } from '../actions/BreedOrder'
 
 import './GameContainer.css';
 
@@ -24,13 +25,13 @@ class GameContainer extends Component {
         return this.setState({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
-        });
+        })
+        ;
       })
       .catch(console.error);
 
   handleSubmit = event => {
     event.preventDefault();
-
     this.renderRandomImage();
   };
 
@@ -58,6 +59,9 @@ class GameContainer extends Component {
       buttons[2].style.pointerEvents = 'auto';
       buttons[3].style.pointerEvents = 'auto';
       buttons[4].style.pointerEvents = 'auto';
+    }
+    if(this.state.correctAnswer!==''){
+      this.props.BreedsAlreadySeen(this.state.correctAnswer)
     }
   };
 
@@ -101,10 +105,11 @@ class GameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  userAnswers: state.userAnswers
+  userAnswers: state.userAnswers,
+  breedOrder: state.breedOrder
 });
 
 export default connect(
   mapStateToProps,
-  { gameOneUrl }
+  { gameOneUrl, BreedsAlreadySeen }
 )(GameContainer);
