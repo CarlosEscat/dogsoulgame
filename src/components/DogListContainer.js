@@ -7,6 +7,8 @@ import DogsList from './DogList';
 import { setBreedState } from '../actions';
 import { addImagesObjects } from '../actions/addImagesObjects'
 
+import './GameContainer.css'
+
 class DogsListContainer extends Component {
   componentDidMount() {
     request
@@ -31,10 +33,13 @@ class DogsListContainer extends Component {
     return (
       <div>
         <NavLink to="/gameone">
-          <button>Start First Game</button>
+          <button className='navigation-button'>Start First Game</button>
         </NavLink>
         <NavLink to="/gametwo">
-          <button>Start Second Game</button>
+          <button className='navigation-button'>Start Second Game</button>
+        </NavLink>
+        <NavLink to="/gamemix">
+          <button className='navigation-button'>Start Game Mix</button>
         </NavLink>
         <DogsList dogBreeds={this.props.breeds} />
       </div>
