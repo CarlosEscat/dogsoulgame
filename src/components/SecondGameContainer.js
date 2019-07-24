@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import SuccessRate from './SuccessRate';
+
 import { addUserAnswer } from '../actions/userAnswers';
+
+import './GameContainer.css';
 
 class SecondGameContainer extends Component {
   state = { name: '', correctName: '' };
@@ -52,6 +55,9 @@ class SecondGameContainer extends Component {
   };
 
   render() {
+    const urls = [this.state.name, this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)],
+    this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]].sort()
+
     return (
       <div>
         <SuccessRate
@@ -64,33 +70,13 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="dog" className="dog-game-image" src={this.state.name} />
-        )}
-        {this.props.photos !== undefined ? (
-          <div>
-            <img alt="dog" className="dog-game-image" src={this.state.name} />
-            <img
-              alt="dog"
-              className="dog-game-image"
-              src={
-                this.props.imagesObjects[
-                  this.randomIndex(this.props.imagesObjects.length)
-                ].photos[this.randomIndex(5)]
-              }
-            />
-            <img
-              alt="dog"
-              className="dog-game-image"
-              src={
-                this.props.imagesObjects[
-                  this.randomIndex(this.props.imagesObjects.length)
-                ].photos[this.randomIndex(5)]
-              }
-            />
-          </div>
-        ) : (
-          <p>Hey stop it dude!!!</p>
-        )}
+            <div>
+              <img alt="dog" className="dog-game-image" src={urls[0]} />
+              <img alt="dog" className="dog-game-image" src={urls[1]} />
+              <img alt="dog" className="dog-game-image" src={urls[2]} />
+            </div>
+          )}
+
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
