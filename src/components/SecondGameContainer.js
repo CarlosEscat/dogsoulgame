@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import SuccessRate from './SuccessRate';
+import randomIndex from './randomIndex'
 
 import { addUserAnswer } from '../actions/userAnswers';
 
@@ -10,12 +11,6 @@ import './GameContainer.css';
 
 class SecondGameContainer extends Component {
   state = { name: '', correctName: '', answerIncorrectly: false };
-
-  randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return -1;
-
-    return Math.floor(Math.random() * dataLength);
-  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -70,11 +65,11 @@ class SecondGameContainer extends Component {
       urls = [
         this.state.name,
         this.props.imagesObjects[
-          this.randomIndex(this.props.imagesObjects.length)
-        ].photos[this.randomIndex(5)],
+          randomIndex(this.props.imagesObjects.length)
+        ].photos[randomIndex(5)],
         this.props.imagesObjects[
-          this.randomIndex(this.props.imagesObjects.length)
-        ].photos[this.randomIndex(5)]
+          randomIndex(this.props.imagesObjects.length)
+        ].photos[randomIndex(5)]
       ].sort();
     } else
       urls = [
@@ -89,7 +84,7 @@ class SecondGameContainer extends Component {
         ) : (
           <button
             style={{ background: 'none', border: 'none' }}
-            onClick={this.checkForCorrect}
+            onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
           >
             <img
               id={this.state.name}
@@ -106,7 +101,7 @@ class SecondGameContainer extends Component {
           <div>
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
+              onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
             >
               <img
                 id={urls[1]}
@@ -118,7 +113,7 @@ class SecondGameContainer extends Component {
 
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
+              onClick={this.props.handleSubmit ? this.props.handleSubmit : this.checkForCorrect}
             >
               <img
                 id={urls[2]}

@@ -20,7 +20,6 @@ class GameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
-        // this.props.gameOneUrl(res.body.message);
         return this.setState({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
@@ -94,6 +93,7 @@ class GameContainer extends Component {
           answer={this.state.correctAnswer}
           renderRandomImage={this.renderRandomImage}
           incorrectState={this.answeredIncorrectly}
+          handleSubmit = {this.props.handleSubmit}
         />
       </div>
     );
