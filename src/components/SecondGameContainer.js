@@ -9,7 +9,7 @@ import { addUserAnswer } from '../actions/userAnswers';
 import './GameContainer.css';
 
 class SecondGameContainer extends Component {
-  state = { name: '', correctName: '' };
+  state = { name: '', correctName: '', answerIncorrectly: false };
 
   randomIndex = dataLength => {
     if (dataLength < 1 || dataLength === undefined) return -1;
@@ -37,7 +37,6 @@ class SecondGameContainer extends Component {
       )
       .catch(console.error);
 
-
   successToPercentage = answers => {
     const successRate =
       (answers.filter(answer => answer === true).length / answers.length) * 100;
@@ -48,56 +47,119 @@ class SecondGameContainer extends Component {
   checkForCorrect = event => {
     event.preventDefault();
 
-    if (event.target.id === this.state.correctName) {
+    if (event.target.id === this.state.name) {
       this.props.addUserAnswer(true);
+      this.renderRightImage();
     } else {
       this.props.addUserAnswer(false);
+      this.setState({ answerIncorrectly: !this.state.answerIncorrectly });
+
+      setTimeout(() => {
+        this.renderRightImage();
+        this.setState({
+          answerIncorrectly: !this.state.answerIncorrectly
+        });
+      }, 2000);
     }
   };
 
+  renderGame = () => {
+    let urls = [];
 
-  render() {
-    const urls = [this.state.name, this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)],
-    this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]].sort()
+    if (this.props.imagesObjects.length !== 0) {
+      urls = [
+        this.state.name,
+        this.props.imagesObjects[
+          this.randomIndex(this.props.imagesObjects.length)
+        ].photos[this.randomIndex(5)],
+        this.props.imagesObjects[
+          this.randomIndex(this.props.imagesObjects.length)
+        ].photos[this.randomIndex(5)]
+      ].sort();
+    } else
+      urls = [
+        'https://www.stickerstudio.com.au/image/cache/catalog/warningsignsitempics/caution_warning_sign_sticker-650x800.jpg'
+      ];
 
     return (
       <div>
-        <SuccessRate
-          success={this.successToPercentage(this.props.userAnswers)}
-        />
-        <NavLink to="/">
-          <button className="navigation-button">Back</button>
-        </NavLink>
         <h2>Choose the photo of the {this.state.correctName}</h2>
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-
-          <div>
-          <button id={this.state.name} style={{background:'none', border:'none'}} onClick={() => console.log(this.state.name.split('/')[4])}> 
-            <img alt="dog" className="dog-game-image" src={urls[0]}/>
+          <button
+            style={{ background: 'none', border: 'none' }}
+            onClick={this.checkForCorrect}
+          >
+            <img
+              id={this.state.name}
+              alt="dog"
+              className="dog-game-image"
+              src={urls[0]}
+            />
           </button>
+        )}
 
+        {this.props.imagesObjects.length === 0 ? (
+          <h1>Stop</h1>
+        ) : (
+          <div>
+            <button
+              style={{ background: 'none', border: 'none' }}
+              onClick={this.checkForCorrect}
+            >
+              <img
+                id={urls[1]}
+                alt="dog"
+                className="dog-game-image"
+                src={urls[1]}
+              />
+            </button>
 
-        <button id="error1" style={{background:'none', border:'none'}} onClick={() => console.log('Error this is not the image breed')}> 
-        <img alt="dog" className="dog-game-image" src={urls[1]} />
-        </button>
-        
-        <button id="error2" style={{background:'none', border:'none'}} onClick={() => console.log('Error this is not the image breed')}> 
-        <img alt="dog" className="dog-game-image" src={urls[2]}/>
-        </button>
-        </div>
-          )}
-
+            <button
+              style={{ background: 'none', border: 'none' }}
+              onClick={this.checkForCorrect}
+            >
+              <img
+                id={urls[2]}
+                alt="dog"
+                className="dog-game-image"
+                src={urls[2]}
+              />
+            </button>
+          </div>
+        )}
 
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
         </button>
+      </div>
+    );
+  };
 
-        <button id={'kamaal'} onClick={this.checkForCorrect}>
-          TEST
-        </button>
+  showCorrectAnswer = () => {
+    if (this.state.answerIncorrectly === true) {
+      return <img alt="dog" className="dog-game-image" src={this.state.name} />;
+    }
+  };
+
+  render() {
+    console.log('state:', this.state.answerIncorrectly);
+
+    return (
+      <div>
+        {this.showCorrectAnswer()}
+
+        <SuccessRate
+          success={this.successToPercentage(this.props.userAnswers)}
+        />
+
+        <NavLink to="/">
+          <button className="navigation-button">Back</button>
+        </NavLink>
+
+        {this.state.answerIncorrectly === true ? <div /> : this.renderGame()}
       </div>
     );
   }

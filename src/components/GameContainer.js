@@ -47,17 +47,17 @@ class GameContainer extends Component {
     if (this.state.answerIncorrectly === true) {
       buttons[0].style.pointerEvents = 'none';
       buttons[1].style.pointerEvents = 'none';
-      buttons[2].style.pointerEvents = 'none';
-      buttons[3].style.pointerEvents = 'none';
-      buttons[4].style.pointerEvents = 'none';
+      // buttons[2].style.pointerEvents = 'none';
+      // buttons[3].style.pointerEvents = 'none';
+      // buttons[4].style.pointerEvents = 'none';
 
       return <h1>{this.state.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
       buttons[0].style.pointerEvents = 'auto';
       buttons[1].style.pointerEvents = 'auto';
-      buttons[2].style.pointerEvents = 'auto';
-      buttons[3].style.pointerEvents = 'auto';
-      buttons[4].style.pointerEvents = 'auto';
+      // buttons[2].style.pointerEvents = 'auto';
+      // buttons[3].style.pointerEvents = 'auto';
+      // buttons[4].style.pointerEvents = 'auto';
     }
   };
 
