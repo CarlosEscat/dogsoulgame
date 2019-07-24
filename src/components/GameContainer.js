@@ -20,12 +20,10 @@ class GameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
-        this.props.gameUrl(
-          {
-            url: res.body.message,
-            correctAnswer: res.body.message.split('/')[4]
-          }
-        )
+        this.props.gameUrl({
+          url: res.body.message,
+          correctAnswer: res.body.message.split('/')[4]
+        });
       })
       .catch(console.error);
 
@@ -68,7 +66,6 @@ class GameContainer extends Component {
     });
 
   render() {
-    console.log('Props:', this.props.game)
     return (
       <div>
         <SuccessRate
@@ -85,8 +82,8 @@ class GameContainer extends Component {
         {this.props.game.url === '' ? (
           <p>loading</p>
         ) : (
-            <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-          )}
+          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+        )}
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addUserAnswer } from '../actions/userAnswers';
-import randomIndex from './randomIndex'
+import randomIndex from './randomIndex';
 import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
@@ -43,16 +43,34 @@ class DisplayAnswers extends React.Component {
         ? 'Go back and start the game again please!!!'
         : randomName2
     ].sort();
-    console.log(this.props)
+
     return (
       <div>
-        <button className='answer-button' onClick={this.props.handleSubmit ? this.props.handleSubmit : this.handleClick} value={randomAnswers[0]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[0]}
+        >
           {randomAnswers[0]}
         </button>
-        <button className='answer-button' onClick={this.props.handleSubmit ? this.props.handleSubmit : this.handleClick} value={randomAnswers[1]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[1]}
+        >
           {randomAnswers[1]}
         </button>
-        <button className='answer-button' onClick={this.props.handleSubmit ? this.props.handleSubmit : this.handleClick} value={randomAnswers[2]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[2]}
+        >
           {randomAnswers[2]}
         </button>
       </div>

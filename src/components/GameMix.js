@@ -11,13 +11,12 @@ class GameMix extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    console.log(event.target);
-
-    if (event.target.id.includes('http')) {
-      if (this.props.game === this.target.id) console.log('correct');
+    if (event.target.id.includes('https')) {
+      if (this.props.game.url === event.target.id) console.log('correct');
       else console.log('no way');
-    } else if (event.target.class.includes('answer-button')) {
-      if (this.props.game === this.target.value) console.log('correct');
+    } else if (event.target.className === 'answer-button') {
+      if (this.props.game.correctAnswer === event.target.value)
+        console.log('correct');
       else console.log('no way');
     }
 
