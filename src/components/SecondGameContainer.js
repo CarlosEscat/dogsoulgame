@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import SuccessRate from './SuccessRate';
+
+import { addUserAnswer } from '../actions/userAnswers';
+
 import './GameContainer.css';
 
 class SecondGameContainer extends Component {
-
-
   state = { name: '', correctName: '' };
 
   randomIndex = dataLength => {
@@ -16,11 +17,9 @@ class SecondGameContainer extends Component {
     return Math.floor(Math.random() * dataLength);
   };
 
-
   handleSubmit = event => {
     event.preventDefault();
     this.renderRightImage();
-
   };
 
   componentDidMount() {
@@ -38,22 +37,36 @@ class SecondGameContainer extends Component {
       )
       .catch(console.error);
 
+  successToPercentage = answers => {
+    const successRate =
+      (answers.filter(answer => answer === true).length / answers.length) * 100;
+
+    return answers.length < 1 ? 0 : successRate.toFixed(0);
+  };
+
+  checkForCorrect = event => {
+    event.preventDefault();
+
+    if (event.target.id === this.state.correctName) {
+      this.props.addUserAnswer(true);
+    } else {
+      this.props.addUserAnswer(false);
+    }
+  };
+
   render() {
     const urls = [this.state.name, this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)],
     this.props.imagesObjects[this.randomIndex(this.props.imagesObjects.length)].photos[this.randomIndex(5)]].sort()
 
     return (
       <div>
-        {/* <SuccessRate
+        <SuccessRate
           success={this.successToPercentage(this.props.userAnswers)}
-        /> */}
-
+        />
         <NavLink to="/">
           <button className="navigation-button">Back</button>
         </NavLink>
-
         <h2>Choose the photo of the {this.state.correctName}</h2>
-
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
@@ -68,16 +81,21 @@ class SecondGameContainer extends Component {
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
         </button>
+
+        <button id={'kamaal'} onClick={this.checkForCorrect}>
+          TEST
+        </button>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects
-
 });
 
-export default connect(mapStateToProps)(SecondGameContainer);
+export default connect(
+  mapStateToProps,
+  { addUserAnswer }
+)(SecondGameContainer);
