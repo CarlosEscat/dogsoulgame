@@ -1,13 +1,9 @@
-import { GAME_ONE_URL } from '../actions';
+import { GAME_URL } from '../actions/index';
 
-const initialState = {
-  url: ''
-};
-
-export default (state = initialState, { type, payload }) => {
+export default (state = {}, { type, payload }) => {
   switch (type) {
-    case GAME_ONE_URL:
-      return (state.url = payload);
+    case GAME_URL:
+      return payload;
 
     default:
       return state;
