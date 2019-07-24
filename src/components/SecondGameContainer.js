@@ -53,6 +53,10 @@ class SecondGameContainer extends Component {
       )
       .catch(console.error);
 
+  imageClicked(name){
+    console.log(name.split('/')[4])
+  }
+
   render() {
     return (
       <div>
@@ -69,10 +73,10 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-            <img alt="dog" className="dog-game-image" src={this.state.name} />
+            <img alt="dog" className="dog-game-image" src={this.state.name} onClick={this.imageClicked(this.state.name)}/>
           )}
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl} />
-        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl2} />
+        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl} onClick={this.imageClicked(this.state.AdditionalUrl)}/>
+        <img alt="dog" className="dog-game-image" src={this.state.AdditionalUrl2} onClick={this.imageClicked(this.state.AdditionalUrl2)}/>
         <br />
         <button className='navigation-button' onClick={this.handleSubmit}>Next</button>
       </div>
