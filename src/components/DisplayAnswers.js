@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addUserAnswer } from '../actions/userAnswers';
+import randomIndex from './randomIndex';
 import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
@@ -27,17 +28,11 @@ class DisplayAnswers extends React.Component {
     }
   };
 
-  randomIndex = dataLength => {
-    if (dataLength < 1 || dataLength === undefined) return -1;
-
-    return Math.floor(Math.random() * dataLength);
-  };
-
   render() {
     const { answer, breeds } = this.props;
 
-    const randomName1 = breeds[this.randomIndex(breeds.length)];
-    const randomName2 = breeds[this.randomIndex(breeds.length)];
+    const randomName1 = breeds[randomIndex(breeds.length)];
+    const randomName2 = breeds[randomIndex(breeds.length)];
 
     const randomAnswers = [
       answer,
@@ -51,13 +46,31 @@ class DisplayAnswers extends React.Component {
 
     return (
       <div>
-        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[0]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[0]}
+        >
           {randomAnswers[0]}
         </button>
-        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[1]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[1]}
+        >
           {randomAnswers[1]}
         </button>
-        <button className='answer-button' onClick={this.handleClick} value={randomAnswers[2]}>
+        <button
+          className="answer-button"
+          onClick={
+            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
+          }
+          value={randomAnswers[2]}
+        >
           {randomAnswers[2]}
         </button>
       </div>

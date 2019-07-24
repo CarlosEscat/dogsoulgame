@@ -5,12 +5,12 @@ import request from 'superagent';
 
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameOneUrl } from '../actions';
+import { gameUrl } from '../actions/index';
 
 import './GameContainer.css';
 
 class GameContainer extends Component {
-  state = { url: '', correctAnswer: '', answerIncorrectly: false };
+  state = { answerIncorrectly: false };
 
   componentDidMount() {
     this.renderRandomImage();
@@ -20,8 +20,7 @@ class GameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
-        // this.props.gameOneUrl(res.body.message);
-        return this.setState({
+        this.props.gameUrl({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
         });
@@ -47,17 +46,17 @@ class GameContainer extends Component {
     if (this.state.answerIncorrectly === true) {
       buttons[0].style.pointerEvents = 'none';
       buttons[1].style.pointerEvents = 'none';
-      buttons[2].style.pointerEvents = 'none';
-      buttons[3].style.pointerEvents = 'none';
-      buttons[4].style.pointerEvents = 'none';
+      // buttons[2].style.pointerEvents = 'none';
+      // buttons[3].style.pointerEvents = 'none';
+      // buttons[4].style.pointerEvents = 'none';
 
-      return <h1>{this.state.correctAnswer}</h1>;
+      return <h1>{this.props.game.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
       buttons[0].style.pointerEvents = 'auto';
       buttons[1].style.pointerEvents = 'auto';
-      buttons[2].style.pointerEvents = 'auto';
-      buttons[3].style.pointerEvents = 'auto';
-      buttons[4].style.pointerEvents = 'auto';
+      // buttons[2].style.pointerEvents = 'auto';
+      // buttons[3].style.pointerEvents = 'auto';
+      // buttons[4].style.pointerEvents = 'auto';
     }
   };
 
@@ -80,10 +79,10 @@ class GameContainer extends Component {
         {this.showCorrectAnswer()}
 
         <br />
-        {this.state.url === '' ? (
+        {this.props.game.url === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="dog" className="dog-game-image" src={this.state.url} />
+          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
         )}
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
@@ -91,9 +90,10 @@ class GameContainer extends Component {
         </button>
 
         <DisplayAnswers
-          answer={this.state.correctAnswer}
+          answer={this.props.game.correctAnswer}
           renderRandomImage={this.renderRandomImage}
           incorrectState={this.answeredIncorrectly}
+          handleSubmit={this.props.handleSubmit}
         />
       </div>
     );
@@ -101,10 +101,11 @@ class GameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  userAnswers: state.userAnswers
+  userAnswers: state.userAnswers,
+  game: state.game
 });
 
 export default connect(
   mapStateToProps,
-  { gameOneUrl }
+  { gameUrl }
 )(GameContainer);
