@@ -7,7 +7,8 @@ import imagesObjects from './imagesObjects'
 
 import game from './gameOne';
 import BreedsAlreadySeen from './breedsOrderGame'
+import difficulty from './difficulty'
 
-export default combineReducers({ breeds, imagesDetails, userAnswers, imagesObjects, game, BreedsAlreadySeen });
+export default combineReducers({ breeds, imagesDetails, userAnswers, imagesObjects, game, BreedsAlreadySeen, difficulty });
 
 
