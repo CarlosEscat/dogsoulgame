@@ -9,7 +9,6 @@ import { gameUrl } from '../actions';
 import { BreedsAlreadySeen } from '../actions/BreedOrder'
 import { addDifficulty } from '../actions/addDifficulty'
 
-
 import './GameContainer.css';
 
 class GameContainer extends Component {
@@ -31,8 +30,7 @@ class GameContainer extends Component {
         this.props.gameUrl({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
-        })
-        ;
+        });
       })
       .catch(console.error);
     }
@@ -40,13 +38,6 @@ class GameContainer extends Component {
     event.preventDefault();
 
     this.renderRandomImage();
-  };
-
-  successToPercentage = answers => {
-    const successRate =
-      (answers.filter(answer => answer === true).length / answers.length) * 100;
-
-    return answers.length < 1 ? 0 : successRate.toFixed(0);
   };
 
   showCorrectAnswer = () => {
@@ -67,8 +58,8 @@ class GameContainer extends Component {
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
     }
-    if(this.state.correctAnswer!==''){
-      this.props.BreedsAlreadySeen(this.state.correctAnswer)
+    if (this.state.correctAnswer !== '') {
+      this.props.BreedsAlreadySeen(this.state.correctAnswer);
     }
   };
 
@@ -80,9 +71,7 @@ class GameContainer extends Component {
   render() {
     return (
       <div>
-        <SuccessRate
-          success={this.successToPercentage(this.props.userAnswers)}
-        />
+        <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>

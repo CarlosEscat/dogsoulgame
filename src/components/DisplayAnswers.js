@@ -12,18 +12,21 @@ class DisplayAnswers extends React.Component {
       addUserAnswer,
       renderRandomImage,
       incorrectState,
-      answer
+      answer,
+      handleSubmit
     } = this.props;
 
     if (answer === event.target.value) {
       addUserAnswer(true);
       renderRandomImage();
+      if (this.props.handleSubmit !== undefined) handleSubmit();
     } else {
       addUserAnswer(false);
       incorrectState();
       setTimeout(() => {
         renderRandomImage();
         incorrectState();
+        if (this.props.handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
@@ -48,27 +51,21 @@ class DisplayAnswers extends React.Component {
       <div>
         <button
           className="answer-button"
-          onClick={
-            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
-          }
+          onClick={this.handleClick}
           value={randomAnswers[0]}
         >
           {randomAnswers[0]}
         </button>
         <button
           className="answer-button"
-          onClick={
-            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
-          }
+          onClick={this.handleClick}
           value={randomAnswers[1]}
         >
           {randomAnswers[1]}
         </button>
         <button
           className="answer-button"
-          onClick={
-            this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
-          }
+          onClick={this.handleClick}
           value={randomAnswers[2]}
         >
           {randomAnswers[2]}
