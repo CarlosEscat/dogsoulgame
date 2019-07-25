@@ -8,6 +8,7 @@ import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
 import { addDifficulty } from '../actions/addDifficulty';
+import { addImagesObjects } from '../actions/addImagesObjects'
 
 import './GameContainer.css';
 
@@ -22,6 +23,8 @@ class SecondGameContainer extends Component {
 
   componentDidMount() {
     this.renderRightImage();
+    console.log('this.props.breeds', this.props.breeds)
+    this.props.breeds.map(breed => this.props.addImagesObjects(breed))
   }
 
   renderRightImage = () => {
@@ -172,6 +175,7 @@ class SecondGameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  breeds: state.breeds,
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects,
   game: state.game,
@@ -180,5 +184,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer, gameUrl, addDifficulty }
+  { addUserAnswer, gameUrl, addDifficulty, addImagesObjects }
 )(SecondGameContainer);
