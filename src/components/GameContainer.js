@@ -6,7 +6,7 @@ import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameUrl } from '../actions';
-import { BreedsAlreadySeen } from '../actions/BreedOrder';
+import { BreedsAlreadySeen } from '../actions/BreedOrder'
 
 import './GameContainer.css';
 
