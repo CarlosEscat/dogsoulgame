@@ -7,6 +7,8 @@ import randomIndex from './randomIndex';
 import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
+import { addDifficulty } from '../actions/addDifficulty';
+import { addImagesObjects } from '../actions/addImagesObjects'
 
 import './GameContainer.css';
 
@@ -15,14 +17,27 @@ class SecondGameContainer extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
     this.renderRightImage();
   };
 
   componentDidMount() {
     this.renderRightImage();
+    console.log('this.props.breeds', this.props.breeds)
+    this.props.breeds.map(breed => this.props.addImagesObjects(breed))
   }
 
-  renderRightImage = () =>
+  renderRightImage = () => {
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
+    }
+
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
@@ -32,12 +47,6 @@ class SecondGameContainer extends Component {
         })
       )
       .catch(console.error);
-
-  successToPercentage = answers => {
-    const successRate =
-      (answers.filter(answer => answer === true).length / answers.length) * 100;
-
-    return answers.length < 1 ? 0 : successRate.toFixed(0);
   };
 
   checkForCorrect = event => {
@@ -45,16 +54,24 @@ class SecondGameContainer extends Component {
 
     if (event.target.id === this.props.game.url) {
       this.props.addUserAnswer(true);
+
       this.renderRightImage();
+
+      if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
     } else {
       this.props.addUserAnswer(false);
-      this.setState({ answerIncorrectly: !this.state.answerIncorrectly });
+      this.setState({
+        answerIncorrectly: !this.state.answerIncorrectly
+      });
 
       setTimeout(() => {
         this.renderRightImage();
+
         this.setState({
           answerIncorrectly: !this.state.answerIncorrectly
         });
+
+        if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
       }, 2000);
     }
   };
@@ -83,11 +100,7 @@ class SecondGameContainer extends Component {
         ) : (
           <button
             style={{ background: 'none', border: 'none' }}
-            onClick={
-              this.props.handleSubmit
-                ? this.props.handleSubmit
-                : this.checkForCorrect
-            }
+            onClick={this.checkForCorrect}
           >
             <img
               id={urls[0]}
@@ -104,11 +117,7 @@ class SecondGameContainer extends Component {
           <span>
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={
-                this.props.handleSubmit
-                  ? this.props.handleSubmit
-                  : this.checkForCorrect
-              }
+              onClick={this.checkForCorrect}
             >
               <img
                 id={urls[1]}
@@ -120,11 +129,7 @@ class SecondGameContainer extends Component {
 
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={
-                this.props.handleSubmit
-                  ? this.props.handleSubmit
-                  : this.checkForCorrect
-              }
+              onClick={this.checkForCorrect}
             >
               <img
                 id={urls[2]}
@@ -155,15 +160,13 @@ class SecondGameContainer extends Component {
   render() {
     return (
       <div>
-        {this.showCorrectAnswer()}
-
-        <SuccessRate
-          success={this.successToPercentage(this.props.userAnswers)}
-        />
+        <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>
         </NavLink>
+
+        {this.showCorrectAnswer()}
 
         {this.state.answerIncorrectly === true ? <div /> : this.renderGame()}
       </div>
@@ -172,12 +175,14 @@ class SecondGameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  breeds: state.breeds,
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects,
-  game: state.game
+  game: state.game,
+  difficulty: state.difficulty
 });
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer, gameUrl }
+  { addUserAnswer, gameUrl, addDifficulty, addImagesObjects }
 )(SecondGameContainer);

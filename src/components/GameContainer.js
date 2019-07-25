@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
-
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameUrl } from '../actions';
 import { breedsAlreadySeen } from '../actions/BreedOrder'
-
-
+import { addDifficulty } from '../actions/addDifficulty';
 import './GameContainer.css';
 
 class GameContainer extends Component {
@@ -18,33 +16,41 @@ class GameContainer extends Component {
     this.renderRandomImage();
   }
 
-  renderRandomImage = () =>
+  renderRandomImage = () => {
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
+    }
+
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
           correctAnswer: res.body.message.split('/')[4]
-        })
-        ;
+        });
       })
       .catch(console.error);
+  };
 
   handleSubmit = event => {
     event.preventDefault();
+
     this.renderRandomImage();
     if(this.props.game.correctAnswer != null){
       this.props.breedsAlreadySeen(this.props.game.correctAnswer)
     }
   };
 
-  
-
   successToPercentage = answers => {
     const successRate =
       (answers.filter(answer => answer === true).length / answers.length) * 100;
-
-    return answers.length < 1 ? 0 : successRate.toFixed(0);
   };
 
   showCorrectAnswer = () => {
@@ -65,20 +71,23 @@ class GameContainer extends Component {
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
     }
-    
+
+    if (this.state.correctAnswer !== '') {
+      this.props.BreedsAlreadySeen(this.state.correctAnswer);
+    }
+
   };
 
-  answeredIncorrectly = () =>
-    this.setState({
+  answeredIncorrectly = () => {
+    return this.setState({
       answerIncorrectly: !this.state.answerIncorrectly
     });
+  };
 
   render() {
     return (
       <div>
-        <SuccessRate
-          success={this.successToPercentage(this.props.userAnswers)}
-        />
+        <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>
@@ -112,10 +121,12 @@ class GameContainer extends Component {
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
   breedsLearned: state.breedsAlreadySeen,
-  game: state.game
+  game: state.game,
+  difficulty: state.difficulty
+
 });
 
 export default connect(
   mapStateToProps,
-  { gameUrl, breedsAlreadySeen }
+  { gameUrl, BreedsAlreadySeen, addDifficulty }
 )(GameContainer);
