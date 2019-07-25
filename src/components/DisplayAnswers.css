@@ -1,0 +1,7 @@
+.answer-button {
+  min-width: 120px;
+  min-height: 40px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}

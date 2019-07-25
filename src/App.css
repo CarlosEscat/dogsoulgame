@@ -23,6 +23,11 @@
   color: #61dafb;
 }
 
+.breedList {
+  columns: 4 auto;
+  
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
