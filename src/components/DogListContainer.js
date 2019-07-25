@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import request from 'superagent';
-import DogsList from './DogList';
 
 import { setBreedState } from '../actions';
 import { addImagesObjects } from '../actions/addImagesObjects'
@@ -43,7 +42,9 @@ class DogsListContainer extends Component {
         <NavLink to="/gamemix">
           <button className='navigation-button'>Start Game Mix</button>
         </NavLink>
-        <DogsList dogBreeds={this.props.breeds} />
+        <NavLink to="/doglist" dogBreeds={this.props.breeds}>
+          <button className='navigation-button'>Learn dog breeds</button>
+        </NavLink>
       </div>
     );
   }

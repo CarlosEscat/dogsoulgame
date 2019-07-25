@@ -24,7 +24,7 @@ class DogCard extends Component {
   render() {
     const { breed } = this.props;
     return (
-      <div>
+      <div className='dog-card'>
         {this.state.url ? (
           <img
             className="listImages"
@@ -35,7 +35,7 @@ class DogCard extends Component {
         ) : (
           'Woof Woof'
         )}
-        <li key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</li>
+        <p key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</p>
       </div>
     );
   }
