@@ -5,7 +5,7 @@ import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameUrl, addGameOneOptions } from '../actions';
-import { breedsAlreadySeen } from '../actions/BreedOrder'
+import { breedsAlreadySeen } from '../actions/BreedOrder';
 import { addDifficulty } from '../actions/addDifficulty';
 import './GameContainer.css';
 
@@ -58,14 +58,9 @@ class GameContainer extends Component {
     event.preventDefault();
 
     this.renderRandomImage();
-    if(this.props.game.correctAnswer != null){
-      this.props.breedsAlreadySeen(this.props.game.correctAnswer)
+    if (this.props.game.correctAnswer != null) {
+      this.props.breedsAlreadySeen(this.props.game.correctAnswer);
     }
-  };
-
-  successToPercentage = answers => {
-    const successRate =
-      (answers.filter(answer => answer === true).length / answers.length) * 100;
   };
 
   showCorrectAnswer = () => {
@@ -86,15 +81,12 @@ class GameContainer extends Component {
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
     }
-
-    
   };
 
-  answeredIncorrectly = () => {
-    return this.setState({
+  answeredIncorrectly = () =>
+    this.setState({
       answerIncorrectly: !this.state.answerIncorrectly
     });
-  };
 
   render() {
     return (
@@ -124,7 +116,6 @@ class GameContainer extends Component {
           incorrectState={this.answeredIncorrectly}
           handleSubmit={this.props.handleSubmit}
         />
-
       </div>
     );
   }
@@ -135,12 +126,10 @@ const mapStateToProps = state => ({
   breedsLearned: state.breedsAlreadySeen,
   game: state.game,
   difficulty: state.difficulty
-
 });
 
 export default connect(
   mapStateToProps,
 
   { gameUrl, breedsAlreadySeen, addDifficulty, addGameOneOptions }
-
 )(GameContainer);

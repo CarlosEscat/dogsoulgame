@@ -2,22 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { addUserAnswer } from '../actions/userAnswers';
-import randomIndex from './randomIndex';
 import AnswerButton from './AnswerButton';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
 
 import './DisplayAnswers.css';
-import { breedsAlreadySeen } from '../actions/BreedOrder'
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
-    const button1 = document.getElementById("button1")
-    const button2 = document.getElementById("button2")
-    button1.style.visibility = 'visible'
-    button2.style.visibility = 'visible'
-    
-    if(this.props.answer != null){
-      this.props.breedsAlreadySeen(this.props.answer)
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    button1.style.visibility = 'visible';
+    button2.style.visibility = 'visible';
+
+    if (this.props.answer != null) {
+      this.props.breedsAlreadySeen(this.props.answer);
     }
 
     const {
@@ -41,73 +40,69 @@ class DisplayAnswers extends React.Component {
         if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
-    this.showButtonHint()
+    this.showButtonHint();
   };
 
   showButtonHint = () => {
-    console.log(this.props.answer)
-    document.getElementById("hintButton").style.visibility = 'vissible'
-    if(this.props.breedsLearned.length !==0 && this.props.breedsLearned.includes(this.props.answer)===false){
-      document.getElementById("hintButton").style.visibility = 'vissible'
-    }else if(this.props.breedsLearned.includes(this.props.answer)===true){
-      console.log('Entered if', this.props.breedsLearned + ' ' + this.props.answer)
-      document.getElementById("hintButton").style.visibility = 'hidden'
+    console.log(this.props.answer);
+    document.getElementById('hintButton').style.visibility = 'vissible';
+    if (
+      this.props.breedsLearned.length !== 0 &&
+      this.props.breedsLearned.includes(this.props.answer) === false
+    ) {
+      document.getElementById('hintButton').style.visibility = 'vissible';
+    } else if (this.props.breedsLearned.includes(this.props.answer) === true) {
+      console.log(
+        'Entered if',
+        this.props.breedsLearned + ' ' + this.props.answer
+      );
+      document.getElementById('hintButton').style.visibility = 'hidden';
     }
-  }
+  };
 
   showHint = () => {
-    const correctAnswer = this.props.answer
-    const button1 = document.getElementById("1")
-    const button2 = document.getElementById("2")
-    
-    if (button1.value !== correctAnswer){
-      button1.style.visibility = 'hidden'
-    }else if(button2.value !== correctAnswer){
-      button2.style.visibility = 'hidden'
-    } 
-  }
+    const correctAnswer = this.props.answer;
+    const button1 = document.getElementById('1');
+    const button2 = document.getElementById('2');
+
+    if (button1.value !== correctAnswer) {
+      button1.style.visibility = 'hidden';
+    } else if (button2.value !== correctAnswer) {
+      button2.style.visibility = 'hidden';
+    }
+  };
 
   render() {
-    const { answer, breeds, difficulty } = this.props;
-
-    const answersArray = answer => {
-      return answer.concat(this.props.gameOptions);
+    const answersArray = () => {
+      if (Array.isArray(this.props.gameOptions))
+        return this.props.gameOptions.sort(() => Math.random() - 0.5);
+      else return ['But wait there is more!!!'];
     };
 
-    const randomAnswers = answersArray([answer]).sort(
-      () => Math.random() - 0.5
-    );
-
-    
-    
     return (
       <div>
+        <button id="hintButton" className="hint-button" onClick={this.showHint}>
+          Hint
+        </button>
 
-        <button id="hintButton" className="hint-button" onClick={this.showHint} >Hint</button>
-
-        {randomAnswers.map((answer, i) => (
+        {answersArray().map((answer, i) => (
           <AnswerButton
-            id={i}
+            id={`${i}`}
             key={i}
             handleClick={this.handleClick}
             randomAnswers={answer}
           />
         ))}
-
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userAnswers: state.userAnswers,
-    breeds: state.breeds,
-    difficulty: state.difficulty,
-    gameOptions: state.game.option,
-    breedsLearned: state.breedsAlreadySeen,
-  };
-};
+const mapStateToProps = state => ({
+  userAnswers: state.userAnswers,
+  gameOptions: state.game.option,
+  breedsLearned: state.breedsAlreadySeen
+});
 
 export default connect(
   mapStateToProps,
