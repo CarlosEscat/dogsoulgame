@@ -2,24 +2,49 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
-
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameUrl } from '../actions';
-import { BreedsAlreadySeen } from '../actions/BreedOrder'
-
+import { gameUrl, addGameOneOptions } from '../actions';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
+import { addDifficulty } from '../actions/addDifficulty';
 import './GameContainer.css';
 
 class GameContainer extends Component {
   state = { answerIncorrectly: false };
 
   componentDidMount() {
-    this.renderRandomImage();
+    this.didMount();
   }
 
-  renderRandomImage = () =>
+  async didMount() {
+    try {
+      await this.props.addGameOneOptions();
+      await this.renderRandomImage();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  renderRandomImage = () => {
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
+    }
+
     request
-      .get('https://dog.ceo/api/breeds/image/random')
+      .get(
+        `https://dog.ceo/api/breed/${
+          this.props.game.option[
+            Math.floor(Math.random() * this.props.game.option.length)
+          ]
+        }/images/random`
+      )
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
@@ -27,11 +52,15 @@ class GameContainer extends Component {
         });
       })
       .catch(console.error);
+  };
 
   handleSubmit = event => {
     event.preventDefault();
 
     this.renderRandomImage();
+    if (this.props.game.correctAnswer != null) {
+      this.props.breedsAlreadySeen(this.props.game.correctAnswer);
+    }
   };
 
   showCorrectAnswer = () => {
@@ -51,9 +80,6 @@ class GameContainer extends Component {
       // buttons[2].style.pointerEvents = 'auto';
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
-    }
-    if (this.state.correctAnswer !== '') {
-      this.props.BreedsAlreadySeen(this.state.correctAnswer);
     }
   };
 
@@ -97,11 +123,13 @@ class GameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  breedOrder: state.breedOrder,
-  game: state.game
+  breedsLearned: state.breedsAlreadySeen,
+  game: state.game,
+  difficulty: state.difficulty
 });
 
 export default connect(
   mapStateToProps,
-  { gameUrl, BreedsAlreadySeen }
+
+  { gameUrl, breedsAlreadySeen, addDifficulty, addGameOneOptions }
 )(GameContainer);

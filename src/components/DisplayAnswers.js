@@ -1,12 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { addUserAnswer } from '../actions/userAnswers';
-import randomIndex from './randomIndex';
+import AnswerButton from './AnswerButton';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
+
 import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    button1.style.visibility = 'visible';
+    button2.style.visibility = 'visible';
+
+    if (this.props.answer != null) {
+      this.props.breedsAlreadySeen(this.props.answer);
+    }
 
     const {
       addUserAnswer,
@@ -19,70 +30,81 @@ class DisplayAnswers extends React.Component {
     if (answer === event.target.value) {
       addUserAnswer(true);
       renderRandomImage();
-      if (this.props.handleSubmit !== undefined) handleSubmit();
+      if (handleSubmit !== undefined) handleSubmit();
     } else {
       addUserAnswer(false);
       incorrectState();
       setTimeout(() => {
         renderRandomImage();
         incorrectState();
-        if (this.props.handleSubmit !== undefined) handleSubmit();
+        if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
+    }
+    this.showButtonHint();
+  };
+
+  showButtonHint = () => {
+    console.log(this.props.answer);
+    document.getElementById('hintButton').style.visibility = 'vissible';
+    if (
+      this.props.breedsLearned.length !== 0 &&
+      this.props.breedsLearned.includes(this.props.answer) === false
+    ) {
+      document.getElementById('hintButton').style.visibility = 'vissible';
+    } else if (this.props.breedsLearned.includes(this.props.answer) === true) {
+      console.log(
+        'Entered if',
+        this.props.breedsLearned + ' ' + this.props.answer
+      );
+      document.getElementById('hintButton').style.visibility = 'hidden';
+    }
+  };
+
+  showHint = () => {
+    const correctAnswer = this.props.answer;
+    const button1 = document.getElementById('1');
+    const button2 = document.getElementById('2');
+
+    if (button1.value !== correctAnswer) {
+      button1.style.visibility = 'hidden';
+    } else if (button2.value !== correctAnswer) {
+      button2.style.visibility = 'hidden';
     }
   };
 
   render() {
-    const { answer, breeds } = this.props;
-
-    const randomName1 = breeds[randomIndex(breeds.length)];
-    const randomName2 = breeds[randomIndex(breeds.length)];
-
-    const randomAnswers = [
-      answer,
-      randomName1 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName1,
-      randomName2 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName2
-    ].sort();
+    const answersArray = () => {
+      if (Array.isArray(this.props.gameOptions))
+        return this.props.gameOptions.sort(() => Math.random() - 0.5);
+      else return ['But wait there is more!!!'];
+    };
 
     return (
       <div>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[0]}
-        >
-          {randomAnswers[0]}
+        <button id="hintButton" className="hint-button" onClick={this.showHint}>
+          Hint
         </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[1]}
-        >
-          {randomAnswers[1]}
-        </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[2]}
-        >
-          {randomAnswers[2]}
-        </button>
+
+        {answersArray().map((answer, i) => (
+          <AnswerButton
+            id={`${i}`}
+            key={i}
+            handleClick={this.handleClick}
+            randomAnswers={answer}
+          />
+        ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userAnswers: state.userAnswers,
-    breeds: state.breeds
-  };
-};
+const mapStateToProps = state => ({
+  userAnswers: state.userAnswers,
+  gameOptions: state.game.option,
+  breedsLearned: state.breedsAlreadySeen
+});
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer }
+  { addUserAnswer, breedsAlreadySeen }
 )(DisplayAnswers);

@@ -8,9 +8,7 @@ import './GameContainer.css';
 class GameMix extends Component {
   state = { game: false };
 
-  randomBool = () => Math.random() >= 0.5;
-
-  handleSubmit = () => this.setState({ game: !this.state.game });
+  handleSubmit = () => this.setState({ game: Math.random() >= 0.5 });
 
   render() {
     return (

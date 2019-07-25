@@ -7,6 +7,8 @@ import randomIndex from './randomIndex';
 import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
+import { addDifficulty } from '../actions/addDifficulty';
+import { addImagesObjects } from '../actions/addImagesObjects'
 
 import './GameContainer.css';
 
@@ -21,9 +23,21 @@ class SecondGameContainer extends Component {
 
   componentDidMount() {
     this.renderRightImage();
+    console.log('this.props.breeds', this.props.breeds)
+    this.props.breeds.map(breed => this.props.addImagesObjects(breed))
   }
 
-  renderRightImage = () =>
+  renderRightImage = () => {
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
+    }
+
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
@@ -33,6 +47,7 @@ class SecondGameContainer extends Component {
         })
       )
       .catch(console.error);
+  };
 
   checkForCorrect = event => {
     event.preventDefault();
@@ -145,13 +160,13 @@ class SecondGameContainer extends Component {
   render() {
     return (
       <div>
-        {this.showCorrectAnswer()}
-
         <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>
         </NavLink>
+
+        {this.showCorrectAnswer()}
 
         {this.state.answerIncorrectly === true ? <div /> : this.renderGame()}
       </div>
@@ -160,12 +175,14 @@ class SecondGameContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  breeds: state.breeds,
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects,
-  game: state.game
+  game: state.game,
+  difficulty: state.difficulty
 });
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer, gameUrl }
+  { addUserAnswer, gameUrl, addDifficulty, addImagesObjects }
 )(SecondGameContainer);
