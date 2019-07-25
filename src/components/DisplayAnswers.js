@@ -19,14 +19,14 @@ class DisplayAnswers extends React.Component {
     if (answer === event.target.value) {
       addUserAnswer(true);
       renderRandomImage();
-      handleSubmit();
+      if (this.props.handleSubmit !== undefined) handleSubmit();
     } else {
       addUserAnswer(false);
       incorrectState();
       setTimeout(() => {
         renderRandomImage();
         incorrectState();
-        handleSubmit();
+        if (this.props.handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
