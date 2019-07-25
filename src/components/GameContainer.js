@@ -33,6 +33,9 @@ class GameContainer extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.renderRandomImage();
+    if(this.props.game.correctAnswer != null){
+      this.props.breedsAlreadySeen(this.props.game.correctAnswer)
+    }
   };
 
   
@@ -62,9 +65,7 @@ class GameContainer extends Component {
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
     }
-    if(this.props.game.correctAnswer != null){
-      this.props.breedsAlreadySeen(this.props.game.correctAnswer)
-    }
+    
   };
 
   answeredIncorrectly = () =>
@@ -73,7 +74,7 @@ class GameContainer extends Component {
     });
 
   render() {
-    console.log(this.props)
+    console.log(this.props.breedsLearned)
     return (
       <div>
         <SuccessRate
@@ -111,7 +112,7 @@ class GameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  //breedsAlreadySeen: state.breedsAlreadySeen,
+  breedsLearned: state.breedsAlreadySeen,
   game: state.game
 });
 

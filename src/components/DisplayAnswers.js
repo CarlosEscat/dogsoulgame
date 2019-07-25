@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addUserAnswer } from '../actions/userAnswers';
 import randomIndex from './randomIndex';
 import './DisplayAnswers.css';
+import { breedsAlreadySeen } from '../actions/BreedOrder'
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
@@ -11,6 +12,10 @@ class DisplayAnswers extends React.Component {
     const button2 = document.getElementById("button2")
     button1.style.visibility = 'visible'
     button2.style.visibility = 'visible'
+    
+    if(this.props.answer != null){
+      this.props.breedsAlreadySeen(this.props.answer)
+    }
 
     const {
       addUserAnswer,
@@ -32,12 +37,21 @@ class DisplayAnswers extends React.Component {
     }
   };
 
+  showButtonHint = () => {
+    console.log(this.props.answer)
+    //document.getElementById("hintButton").style.visibility = 'hidden'
+    if(this.props.breedsLearned.length !==0 && this.props.breedsLearned.includes(this.props.answer)===true){
+      document.getElementById("hintButton").style.visibility = 'vissible'
+    }
+    if(this.props.breedsLearned.length !==0){
+      document.getElementById("hintButton").style.visibility = 'vissible'
+    }
+  }
+
   showHint = () => {
     const correctAnswer = this.props.answer
     const button1 = document.getElementById("button1")
     const button2 = document.getElementById("button2")
-    
-    console.log(correctAnswer)
     
     if (button1.value !== correctAnswer){
       button1.style.visibility = 'hidden'
@@ -61,6 +75,8 @@ class DisplayAnswers extends React.Component {
         ? 'Go back and start the game again please!!!'
         : randomName2
     ].sort();
+
+    this.showButtonHint()
     
     return (
       <div>
@@ -91,8 +107,8 @@ class DisplayAnswers extends React.Component {
         >
           {randomAnswers[2]}
         </button>
-        <br></br>
-        <button className="hint-button" onClick={this.showHint}>Hint</button>
+        <br />
+        <button id="hintButton" className="hint-button" onClick={this.showHint}>Hint</button>
       </div>
     );
   }
@@ -101,11 +117,12 @@ class DisplayAnswers extends React.Component {
 const mapStateToProps = state => {
   return {
     userAnswers: state.userAnswers,
-    breeds: state.breeds
+    breeds: state.breeds,
+    breedsLearned: state.breedsAlreadySeen
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer }
+  { addUserAnswer, breedsAlreadySeen }
 )(DisplayAnswers);
