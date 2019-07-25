@@ -7,6 +7,7 @@ import randomIndex from './randomIndex';
 import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
+import { addDifficulty } from '../actions/addDifficulty'
 
 import './GameContainer.css';
 
@@ -23,7 +24,12 @@ class SecondGameContainer extends Component {
     this.renderRightImage();
   }
 
-  renderRightImage = () =>
+  renderRightImage = () => {
+    const condition = this.props.userAnswers.slice(this.props.userAnswers.length - 5, this.props.userAnswers.length).every(value => value === true)
+    if ((this.props.userAnswers.length >= 5 * this.props.difficulty) && condition === true) {
+      this.props.addDifficulty(1)
+    }
+
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
@@ -33,6 +39,7 @@ class SecondGameContainer extends Component {
         })
       )
       .catch(console.error);
+  }
 
   checkForCorrect = event => {
     event.preventDefault();
@@ -83,48 +90,48 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-          <button
-            style={{ background: 'none', border: 'none' }}
-            onClick={this.checkForCorrect}
-          >
-            <img
-              id={urls[0]}
-              alt="dog"
-              className="dog-game-image"
-              src={urls[0]}
-            />
-          </button>
-        )}
+            <button
+              style={{ background: 'none', border: 'none' }}
+              onClick={this.checkForCorrect}
+            >
+              <img
+                id={urls[0]}
+                alt="dog"
+                className="dog-game-image"
+                src={urls[0]}
+              />
+            </button>
+          )}
 
         {this.props.imagesObjects.length === 0 ? (
           <h1>Stop</h1>
         ) : (
-          <span>
-            <button
-              style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
-            >
-              <img
-                id={urls[1]}
-                alt="dog"
-                className="dog-game-image"
-                src={urls[1]}
-              />
-            </button>
+            <span>
+              <button
+                style={{ background: 'none', border: 'none' }}
+                onClick={this.checkForCorrect}
+              >
+                <img
+                  id={urls[1]}
+                  alt="dog"
+                  className="dog-game-image"
+                  src={urls[1]}
+                />
+              </button>
 
-            <button
-              style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
-            >
-              <img
-                id={urls[2]}
-                alt="dog"
-                className="dog-game-image"
-                src={urls[2]}
-              />
-            </button>
-          </span>
-        )}
+              <button
+                style={{ background: 'none', border: 'none' }}
+                onClick={this.checkForCorrect}
+              >
+                <img
+                  id={urls[2]}
+                  alt="dog"
+                  className="dog-game-image"
+                  src={urls[2]}
+                />
+              </button>
+            </span>
+          )}
 
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
@@ -162,10 +169,11 @@ class SecondGameContainer extends Component {
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
   imagesObjects: state.imagesObjects,
-  game: state.game
+  game: state.game,
+  difficulty: state.difficulty
 });
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer, gameUrl }
+  { addUserAnswer, gameUrl, addDifficulty }
 )(SecondGameContainer);
