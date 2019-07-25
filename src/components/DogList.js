@@ -13,8 +13,8 @@ class DogsList extends Component {
           'Loading...'
         ) : (
           <ul>
-            {breeds.map(breed => (
-              <DogCard breed={breed} />
+            {breeds.map((breed, i) => (
+              <DogCard key={i} breed={breed} />
             ))}
           </ul>
         )}

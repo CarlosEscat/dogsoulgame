@@ -8,20 +8,9 @@ import './GameContainer.css';
 class GameMix extends Component {
   state = { game: false };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  randomBool = () => Math.random() >= 0.5;
 
-    if (event.target.id.includes('https')) {
-      if (this.props.game.url === event.target.id) console.log('correct');
-      else console.log('no way');
-    } else if (event.target.className === 'answer-button') {
-      if (this.props.game.correctAnswer === event.target.value)
-        console.log('correct');
-      else console.log('no way');
-    }
-
-    this.setState({ game: !this.state.game });
-  };
+  handleSubmit = () => this.setState({ game: !this.state.game });
 
   render() {
     return (
