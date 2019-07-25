@@ -5,7 +5,7 @@ import request from 'superagent';
 
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameOneUrl } from '../actions';
+import { gameUrl } from '../actions';
 import { BreedsAlreadySeen } from '../actions/BreedOrder'
 
 
@@ -107,11 +107,11 @@ class GameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  breedOrder: state.breedOrder
+  breedOrder: state.breedOrder,
   game: state.game
 });
 
 export default connect(
   mapStateToProps,
-  { gameOneUrl, BreedsAlreadySeen }
+  { gameUrl, BreedsAlreadySeen }
 )(GameContainer);
