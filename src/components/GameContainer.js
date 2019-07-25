@@ -19,11 +19,10 @@ class GameContainer extends Component {
   }
 
   renderRandomImage = () => {
-    // const condition = this.props.userAnswers.slice(this.props.userAnswers.length - 6, this.props.userAnswers.length -1)
-    // if (this.props.userAnswers.length >= 5 && condition) {
-    //   this.props.addDifficulty(1)
-    //   console.log('I was changed', condition)
-    // }
+    const condition = this.props.userAnswers.slice(this.props.userAnswers.length - 5, this.props.userAnswers.length).every(value => value === true)
+    if ((this.props.userAnswers.length >= 5 * this.props.difficulty) && condition === true) {
+      this.props.addDifficulty(1)
+    }
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
@@ -33,7 +32,7 @@ class GameContainer extends Component {
         });
       })
       .catch(console.error);
-    }
+  }
   handleSubmit = event => {
     event.preventDefault();
 
@@ -83,8 +82,8 @@ class GameContainer extends Component {
         {this.props.game.url === '' ? (
           <p>loading</p>
         ) : (
-          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-        )}
+            <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+          )}
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
