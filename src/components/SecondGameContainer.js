@@ -15,6 +15,7 @@ class SecondGameContainer extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
     this.renderRightImage();
   };
 
@@ -33,28 +34,29 @@ class SecondGameContainer extends Component {
       )
       .catch(console.error);
 
-  successToPercentage = answers => {
-    const successRate =
-      (answers.filter(answer => answer === true).length / answers.length) * 100;
-
-    return answers.length < 1 ? 0 : successRate.toFixed(0);
-  };
-
   checkForCorrect = event => {
     event.preventDefault();
 
     if (event.target.id === this.props.game.url) {
       this.props.addUserAnswer(true);
+
       this.renderRightImage();
+
+      if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
     } else {
       this.props.addUserAnswer(false);
-      this.setState({ answerIncorrectly: !this.state.answerIncorrectly });
+      this.setState({
+        answerIncorrectly: !this.state.answerIncorrectly
+      });
 
       setTimeout(() => {
         this.renderRightImage();
+
         this.setState({
           answerIncorrectly: !this.state.answerIncorrectly
         });
+
+        if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
       }, 2000);
     }
   };
@@ -83,11 +85,7 @@ class SecondGameContainer extends Component {
         ) : (
           <button
             style={{ background: 'none', border: 'none' }}
-            onClick={
-              this.props.handleSubmit
-                ? this.props.handleSubmit
-                : this.checkForCorrect
-            }
+            onClick={this.checkForCorrect}
           >
             <img
               id={urls[0]}
@@ -104,11 +102,7 @@ class SecondGameContainer extends Component {
           <span>
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={
-                this.props.handleSubmit
-                  ? this.props.handleSubmit
-                  : this.checkForCorrect
-              }
+              onClick={this.checkForCorrect}
             >
               <img
                 id={urls[1]}
@@ -120,11 +114,7 @@ class SecondGameContainer extends Component {
 
             <button
               style={{ background: 'none', border: 'none' }}
-              onClick={
-                this.props.handleSubmit
-                  ? this.props.handleSubmit
-                  : this.checkForCorrect
-              }
+              onClick={this.checkForCorrect}
             >
               <img
                 id={urls[2]}
@@ -157,9 +147,7 @@ class SecondGameContainer extends Component {
       <div>
         {this.showCorrectAnswer()}
 
-        <SuccessRate
-          success={this.successToPercentage(this.props.userAnswers)}
-        />
+        <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>

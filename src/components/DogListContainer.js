@@ -6,6 +6,7 @@ import DogsList from './DogList';
 
 import { setBreedState } from '../actions';
 import { addImagesObjects } from '../actions/addImagesObjects'
+import { setDifficulty } from '../actions/setDifficulty'
 
 import './GameContainer.css'
 
@@ -15,6 +16,7 @@ class DogsListContainer extends Component {
       .get('https://dog.ceo/api/breeds/list/all')
       .then(response => {
         this.props.setBreedState(Object.keys(response.body.message));
+        this.props.setDifficulty(1)
         this.props.breeds.map(breed => this.requirePhotos(breed))
       })
       .catch(console.error);
@@ -53,5 +55,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setBreedState, addImagesObjects }
+  { setBreedState, addImagesObjects, setDifficulty }
 )(DogsListContainer);
