@@ -7,6 +7,10 @@ import './DisplayAnswers.css';
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
+    const button1 = document.getElementById("button1")
+    const button2 = document.getElementById("button2")
+    button1.style.visibility = 'visible'
+    button2.style.visibility = 'visible'
 
     const {
       addUserAnswer,
@@ -28,6 +32,20 @@ class DisplayAnswers extends React.Component {
     }
   };
 
+  showHint = () => {
+    const correctAnswer = this.props.answer
+    const button1 = document.getElementById("button1")
+    const button2 = document.getElementById("button2")
+    
+    console.log(correctAnswer)
+    
+    if (button1.value !== correctAnswer){
+      button1.style.visibility = 'hidden'
+    }else if(button2.value !== correctAnswer){
+      button2.style.visibility = 'hidden'
+    } 
+  }
+
   render() {
     const { answer, breeds } = this.props;
 
@@ -43,10 +61,10 @@ class DisplayAnswers extends React.Component {
         ? 'Go back and start the game again please!!!'
         : randomName2
     ].sort();
-
+    
     return (
       <div>
-        <button
+        <button id="button1"
           className="answer-button"
           onClick={
             this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
@@ -55,7 +73,7 @@ class DisplayAnswers extends React.Component {
         >
           {randomAnswers[0]}
         </button>
-        <button
+        <button id="button2"
           className="answer-button"
           onClick={
             this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
@@ -64,7 +82,7 @@ class DisplayAnswers extends React.Component {
         >
           {randomAnswers[1]}
         </button>
-        <button
+        <button id="button3"
           className="answer-button"
           onClick={
             this.props.handleSubmit ? this.props.handleSubmit : this.handleClick
@@ -73,6 +91,8 @@ class DisplayAnswers extends React.Component {
         >
           {randomAnswers[2]}
         </button>
+        <br></br>
+        <button className="hint-button" onClick={this.showHint}>Hint</button>
       </div>
     );
   }
