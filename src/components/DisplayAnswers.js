@@ -7,7 +7,7 @@ import './DisplayAnswers.css';
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
-
+//
     const {
       addUserAnswer,
       renderRandomImage,
