@@ -35,16 +35,17 @@ class DisplayAnswers extends React.Component {
         incorrectState();
       }, 2000);
     }
+    this.showButtonHint()
   };
 
   showButtonHint = () => {
     console.log(this.props.answer)
-    //document.getElementById("hintButton").style.visibility = 'hidden'
-    if(this.props.breedsLearned.length !==0 && this.props.breedsLearned.includes(this.props.answer)===true){
+    document.getElementById("hintButton").style.visibility = 'vissible'
+    if(this.props.breedsLearned.length !==0 && this.props.breedsLearned.includes(this.props.answer)===false){
       document.getElementById("hintButton").style.visibility = 'vissible'
-    }
-    if(this.props.breedsLearned.length !==0){
-      document.getElementById("hintButton").style.visibility = 'vissible'
+    }else if(this.props.breedsLearned.includes(this.props.answer)===true){
+      console.log('Entered if', this.props.breedsLearned + ' ' + this.props.answer)
+      document.getElementById("hintButton").style.visibility = 'hidden'
     }
   }
 
@@ -76,7 +77,7 @@ class DisplayAnswers extends React.Component {
         : randomName2
     ].sort();
 
-    this.showButtonHint()
+    
     
     return (
       <div>
@@ -108,7 +109,7 @@ class DisplayAnswers extends React.Component {
           {randomAnswers[2]}
         </button>
         <br />
-        <button id="hintButton" className="hint-button" onClick={this.showHint}>Hint</button>
+        <button id="hintButton" className="hint-button" onClick={this.showHint} >Hint</button>
       </div>
     );
   }

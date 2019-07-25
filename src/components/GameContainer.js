@@ -74,7 +74,6 @@ class GameContainer extends Component {
     });
 
   render() {
-    console.log(this.props.breedsLearned)
     return (
       <div>
         <SuccessRate
