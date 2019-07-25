@@ -4,13 +4,14 @@ import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import SuccessRate from './SuccessRate';
 import randomIndex from './randomIndex';
+import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
 
 import './GameContainer.css';
 
 class SecondGameContainer extends Component {
-  state = { name: '', correctName: '', answerIncorrectly: false };
+  state = { answerIncorrectly: false };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -25,9 +26,9 @@ class SecondGameContainer extends Component {
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res =>
-        this.setState({
-          name: res.body.message,
-          correctName: res.body.message.split('/')[4]
+        this.props.gameUrl({
+          url: res.body.message,
+          correctAnswer: res.body.message.split('/')[4]
         })
       )
       .catch(console.error);
@@ -42,7 +43,7 @@ class SecondGameContainer extends Component {
   checkForCorrect = event => {
     event.preventDefault();
 
-    if (event.target.id === this.state.name) {
+    if (event.target.id === this.props.game.url) {
       this.props.addUserAnswer(true);
       this.renderRightImage();
     } else {
@@ -63,7 +64,7 @@ class SecondGameContainer extends Component {
 
     if (this.props.imagesObjects.length !== 0) {
       urls = [
-        this.state.name,
+        this.props.game.url,
         this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)]
           .photos[randomIndex(5)],
         this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)]
@@ -75,8 +76,8 @@ class SecondGameContainer extends Component {
       ];
 
     return (
-      <div>
-        <h2>Choose the photo of the {this.state.correctName}</h2>
+      <span>
+        <h2>Choose the photo of the {this.props.game.correctAnswer}</h2>
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
@@ -100,7 +101,7 @@ class SecondGameContainer extends Component {
         {this.props.imagesObjects.length === 0 ? (
           <h1>Stop</h1>
         ) : (
-          <div>
+          <span>
             <button
               style={{ background: 'none', border: 'none' }}
               onClick={
@@ -132,26 +133,26 @@ class SecondGameContainer extends Component {
                 src={urls[2]}
               />
             </button>
-          </div>
+          </span>
         )}
 
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
         </button>
-      </div>
+      </span>
     );
   };
 
   showCorrectAnswer = () => {
     if (this.state.answerIncorrectly === true) {
-      return <img alt="dog" className="dog-game-image" src={this.state.name} />;
+      return (
+        <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+      );
     }
   };
 
   render() {
-    console.log('state:', this.state.answerIncorrectly);
-
     return (
       <div>
         {this.showCorrectAnswer()}
@@ -172,10 +173,11 @@ class SecondGameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  imagesObjects: state.imagesObjects
+  imagesObjects: state.imagesObjects,
+  game: state.game
 });
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer }
+  { addUserAnswer, gameUrl }
 )(SecondGameContainer);

@@ -4,8 +4,8 @@ export const setBreedState = payload => ({
   payload
 });
 
-export const GAME_ONE_URL = 'GAME_ONE_URL';
-export const gameOneUrl = payload => ({
-  type: GAME_ONE_URL,
+export const GAME_URL = 'GAME_URL';
+export const gameUrl = payload => ({
+  type: GAME_URL,
   payload
 });
