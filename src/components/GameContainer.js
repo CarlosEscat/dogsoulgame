@@ -5,7 +5,7 @@ import request from 'superagent';
 
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameUrl } from '../actions';
+import { gameUrl, addGameOneOptions } from '../actions';
 import { BreedsAlreadySeen } from '../actions/BreedOrder';
 import { addDifficulty } from '../actions/addDifficulty';
 
@@ -15,7 +15,16 @@ class GameContainer extends Component {
   state = { answerIncorrectly: false };
 
   componentDidMount() {
-    this.renderRandomImage();
+    this.didMount();
+  }
+
+  async didMount() {
+    try {
+      await this.props.addGameOneOptions();
+      await this.renderRandomImage();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   renderRandomImage = () => {
@@ -31,7 +40,13 @@ class GameContainer extends Component {
     }
 
     request
-      .get('https://dog.ceo/api/breeds/image/random')
+      .get(
+        `https://dog.ceo/api/breed/${
+          this.props.game.option[
+            Math.floor(Math.random() * this.props.game.option.length)
+          ]
+        }/images/random`
+      )
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
@@ -119,5 +134,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { gameUrl, BreedsAlreadySeen, addDifficulty }
+  { gameUrl, BreedsAlreadySeen, addDifficulty, addGameOneOptions }
 )(GameContainer);

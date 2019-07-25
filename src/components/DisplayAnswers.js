@@ -37,32 +37,13 @@ class DisplayAnswers extends React.Component {
   render() {
     const { answer, breeds, difficulty } = this.props;
 
-    const randomAnswersArray = answer => {
-      let arr = [];
-
-      switch (difficulty) {
-        case 2:
-          for (let i = 0; i < 5; i++) {
-            breeds[randomIndex(breeds.length)] === undefined
-              ? arr.push('Go back and start the game again please!!!')
-              : arr.push(breeds[randomIndex(breeds.length)]);
-          }
-
-          return answer.concat(arr);
-
-        default:
-          // default case is 1
-          for (let i = 0; i < 2; i++) {
-            breeds[randomIndex(breeds.length)] === undefined
-              ? arr.push('Go back and start the game again please!!!')
-              : arr.push(breeds[randomIndex(breeds.length)]);
-          }
-
-          return answer.concat(arr);
-      }
+    const answersArray = answer => {
+      return answer.concat(this.props.gameOptions);
     };
 
-    const randomAnswers = randomAnswersArray([answer]).sort();
+    const randomAnswers = answersArray([answer]).sort(
+      () => Math.random() - 0.5
+    );
 
     return (
       <div>
@@ -82,7 +63,8 @@ const mapStateToProps = state => {
   return {
     userAnswers: state.userAnswers,
     breeds: state.breeds,
-    difficulty: state.difficulty
+    difficulty: state.difficulty,
+    gameOptions: state.game.option
   };
 };
 
