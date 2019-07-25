@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { addUserAnswer } from '../actions/userAnswers';
 import randomIndex from './randomIndex';
+import AnswerButton from './AnswerButton';
+
 import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
@@ -19,57 +22,59 @@ class DisplayAnswers extends React.Component {
     if (answer === event.target.value) {
       addUserAnswer(true);
       renderRandomImage();
-      if (this.props.handleSubmit !== undefined) handleSubmit();
+      if (handleSubmit !== undefined) handleSubmit();
     } else {
       addUserAnswer(false);
       incorrectState();
       setTimeout(() => {
         renderRandomImage();
         incorrectState();
-        if (this.props.handleSubmit !== undefined) handleSubmit();
+        if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
 
   render() {
-    const { answer, breeds } = this.props;
+    const { answer, breeds, difficulty } = this.props;
 
-    const randomName1 = breeds[randomIndex(breeds.length)];
-    const randomName2 = breeds[randomIndex(breeds.length)];
+    const randomAnswersArray = answer => {
+      let arr = [];
 
-    const randomAnswers = [
-      answer,
-      randomName1 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName1,
-      randomName2 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName2
-    ].sort();
+      const randomBreedName = breeds[randomIndex(breeds.length)];
+
+      switch (difficulty) {
+        case 2:
+          for (let i = 0; i < 5; i++) {
+            randomBreedName === undefined
+              ? arr.push('Go back and start the game again please!!!')
+              : arr.push(randomBreedName);
+          }
+
+          return answer.concat(arr);
+
+        default:
+          // default case is 1
+          for (let i = 0; i < 2; i++) {
+            randomBreedName === undefined
+              ? arr.push('Go back and start the game again please!!!')
+              : arr.push(randomBreedName);
+          }
+
+          return answer.concat(arr);
+      }
+    };
+
+    const randomAnswers = randomAnswersArray([answer]).sort();
 
     return (
       <div>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[0]}
-        >
-          {randomAnswers[0]}
-        </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[1]}
-        >
-          {randomAnswers[1]}
-        </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[2]}
-        >
-          {randomAnswers[2]}
-        </button>
+        {randomAnswers.map((answer, i) => (
+          <AnswerButton
+            key={i}
+            handleClick={this.handleClick}
+            randomAnswers={answer}
+          />
+        ))}
       </div>
     );
   }
@@ -78,7 +83,8 @@ class DisplayAnswers extends React.Component {
 const mapStateToProps = state => {
   return {
     userAnswers: state.userAnswers,
-    breeds: state.breeds
+    breeds: state.breeds,
+    difficulty: state.difficulty
   };
 };
 
