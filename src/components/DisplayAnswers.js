@@ -40,14 +40,12 @@ class DisplayAnswers extends React.Component {
     const randomAnswersArray = answer => {
       let arr = [];
 
-      const randomBreedName = breeds[randomIndex(breeds.length)];
-
       switch (difficulty) {
         case 2:
           for (let i = 0; i < 5; i++) {
-            randomBreedName === undefined
+            breeds[randomIndex(breeds.length)] === undefined
               ? arr.push('Go back and start the game again please!!!')
-              : arr.push(randomBreedName);
+              : arr.push(breeds[randomIndex(breeds.length)]);
           }
 
           return answer.concat(arr);
@@ -55,9 +53,9 @@ class DisplayAnswers extends React.Component {
         default:
           // default case is 1
           for (let i = 0; i < 2; i++) {
-            randomBreedName === undefined
+            breeds[randomIndex(breeds.length)] === undefined
               ? arr.push('Go back and start the game again please!!!')
-              : arr.push(randomBreedName);
+              : arr.push(breeds[randomIndex(breeds.length)]);
           }
 
           return answer.concat(arr);

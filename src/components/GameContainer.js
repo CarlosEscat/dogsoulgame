@@ -6,8 +6,8 @@ import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameUrl } from '../actions';
-import { BreedsAlreadySeen } from '../actions/BreedOrder'
-import { addDifficulty } from '../actions/addDifficulty'
+import { BreedsAlreadySeen } from '../actions/BreedOrder';
+import { addDifficulty } from '../actions/addDifficulty';
 
 import './GameContainer.css';
 
@@ -19,10 +19,17 @@ class GameContainer extends Component {
   }
 
   renderRandomImage = () => {
-    const condition = this.props.userAnswers.slice(this.props.userAnswers.length - 5, this.props.userAnswers.length).every(value => value === true)
-    if ((this.props.userAnswers.length >= 5 * this.props.difficulty) && condition === true) {
-      this.props.addDifficulty(1)
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
     }
+
     request
       .get('https://dog.ceo/api/breeds/image/random')
       .then(res => {
@@ -32,7 +39,8 @@ class GameContainer extends Component {
         });
       })
       .catch(console.error);
-  }
+  };
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -57,15 +65,17 @@ class GameContainer extends Component {
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
     }
+
     if (this.state.correctAnswer !== '') {
       this.props.BreedsAlreadySeen(this.state.correctAnswer);
     }
   };
 
-  answeredIncorrectly = () =>
-    this.setState({
+  answeredIncorrectly = () => {
+    return this.setState({
       answerIncorrectly: !this.state.answerIncorrectly
     });
+  };
 
   render() {
     return (
@@ -82,8 +92,8 @@ class GameContainer extends Component {
         {this.props.game.url === '' ? (
           <p>loading</p>
         ) : (
-            <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-          )}
+          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+        )}
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>
           Next
