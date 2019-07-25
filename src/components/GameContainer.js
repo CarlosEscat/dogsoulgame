@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'superagent';
-
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
 import { gameUrl } from '../actions';
-import { BreedsAlreadySeen } from '../actions/BreedOrder';
+import { breedsAlreadySeen } from '../actions/BreedOrder'
 import { addDifficulty } from '../actions/addDifficulty';
-
 import './GameContainer.css';
 
 class GameContainer extends Component {
@@ -45,6 +43,14 @@ class GameContainer extends Component {
     event.preventDefault();
 
     this.renderRandomImage();
+    if(this.props.game.correctAnswer != null){
+      this.props.breedsAlreadySeen(this.props.game.correctAnswer)
+    }
+  };
+
+  successToPercentage = answers => {
+    const successRate =
+      (answers.filter(answer => answer === true).length / answers.length) * 100;
   };
 
   showCorrectAnswer = () => {
@@ -69,6 +75,7 @@ class GameContainer extends Component {
     if (this.state.correctAnswer !== '') {
       this.props.BreedsAlreadySeen(this.state.correctAnswer);
     }
+
   };
 
   answeredIncorrectly = () => {
@@ -105,6 +112,7 @@ class GameContainer extends Component {
           incorrectState={this.answeredIncorrectly}
           handleSubmit={this.props.handleSubmit}
         />
+
       </div>
     );
   }
@@ -112,9 +120,10 @@ class GameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  breedOrder: state.breedOrder,
+  breedsLearned: state.breedsAlreadySeen,
   game: state.game,
   difficulty: state.difficulty
+
 });
 
 export default connect(
