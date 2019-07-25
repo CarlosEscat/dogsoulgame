@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 
 export default class SuccessRate extends Component {
-  successToPercentage = answers => {
-    const successRate =
-      (answers.filter(answer => answer === true).length / answers.length) * 100;
+  successRateObject = answers => {
+    const successRate = answers.filter(answer => answer === true).length,
+      failureRate = answers.length - successRate,
+      successRatePercentage = (answers.length < 1
+        ? 0
+        : (successRate / answers.length) * 100
+      ).toFixed(0);
 
-    return answers.length < 1 ? 0 : successRate.toFixed(0);
+    return {
+      percentage: successRatePercentage,
+      correct: successRate,
+      wrong: failureRate
+    };
   };
 
   render() {
+    const { percentage, correct, wrong } = this.successRateObject(
+      this.props.success
+    );
+
     return (
       <div>
-        <h3>Success Rate: {this.successToPercentage(this.props.success)}%</h3>
-        {/* <h3>Correct {this.props.success}</h3> */}
+        <h3>Success Rate: {percentage}%</h3>
+        <h3>Correct: {correct}</h3>
+        <h3>Wrong: {wrong}</h3>
       </div>
     );
   }
