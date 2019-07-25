@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import DogsListContainer from './components/DogListContainer'
-import DogDetailsContainer from './components/DogDetailsContainer'
-import SecondGameContainer from './components/SecondGameContainer'
-import GameMix from './components/GameMix'
+import DogsListContainer from './components/DogListContainer';
+import DogDetailsContainer from './components/DogDetailsContainer';
+import SecondGameContainer from './components/SecondGameContainer';
+import GameMix from './components/GameMix';
 
 import { Route } from 'react-router-dom';
 import GameContainer from './components/GameContainer';
