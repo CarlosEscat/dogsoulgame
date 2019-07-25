@@ -123,7 +123,7 @@ const mapStateToProps = state => {
     userAnswers: state.userAnswers,
     breeds: state.breeds,
 
-    breedsLearned: state.breedsAlreadySeen
+    breedsLearned: state.breedsAlreadySeen,
 
     difficulty: state.difficulty
 

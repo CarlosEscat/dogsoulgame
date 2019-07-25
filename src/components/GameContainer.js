@@ -72,10 +72,7 @@ class GameContainer extends Component {
       // buttons[4].style.pointerEvents = 'auto';
     }
 
-    if (this.state.correctAnswer !== '') {
-      this.props.BreedsAlreadySeen(this.state.correctAnswer);
-    }
-
+    
   };
 
   answeredIncorrectly = () => {
@@ -128,5 +125,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { gameUrl, BreedsAlreadySeen, addDifficulty }
+  { gameUrl, breedsAlreadySeen, addDifficulty }
 )(GameContainer);
