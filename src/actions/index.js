@@ -1,4 +1,5 @@
 import randomIndex from '../components/randomIndex';
+import request from 'superagent';
 
 export const SET_BREED_STATE = 'SET_BREED_STATE';
 export const setBreedState = payload => ({
@@ -11,6 +12,7 @@ export const gameUrl = payload => ({
   type: GAME_URL,
   payload
 });
+
 
 export const GAME_ONE_OPTIONS = 'GAME_ONE_OPTIONS';
 export const addGameOneOptions = () => (dispatch, getState) => {
@@ -26,3 +28,22 @@ export const addGameOneOptions = () => (dispatch, getState) => {
     payload: arrayOfDogs
   });
 };
+
+export const setBreedState = () => {
+  return function (dispatch, getState) {
+    if (getState().breeds.length === 0) {
+      return (request
+        .get('https://dog.ceo/api/breeds/list/all')
+        .then(response => {
+          dispatch({
+            type: 'SET_BREED_STATE',
+            payload: Object.keys(response.body.message)
+          })
+
+        })
+        .catch(console.error)
+      )
+    }
+  }
+}
+
