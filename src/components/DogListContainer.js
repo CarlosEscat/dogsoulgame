@@ -6,6 +6,7 @@ import { setBreedState } from '../actions';
 import { setDifficulty } from '../actions/setDifficulty'
 
 import './GameContainer.css'
+import './DogListContainer.css'
 
 class DogsListContainer extends Component {
   //state for keyboard shortcut
@@ -46,18 +47,23 @@ class DogsListContainer extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <NavLink to="/gameone">
-          <button className='navigation-button'>Start First Game</button>
-        </NavLink>
-        <NavLink to="/gametwo">
-          <button className='navigation-button'>Start Second Game</button>
-        </NavLink>
-        <NavLink to="/gamemix">
-          <button className='navigation-button'>Start Game Mix</button>
-        </NavLink>
-        <NavLink to="/doglist">
-          <button className='navigation-button'>Learn dog breeds</button>
-        </NavLink>
+        <nav>
+          <NavLink to="/gameone">
+            <button className='navigation-button'>Start First Game</button>
+          </NavLink>
+          <NavLink to="/gametwo">
+            <button className='navigation-button'>Start Second Game</button>
+          </NavLink>
+          <NavLink to="/gamemix">
+            <button className='navigation-button'>Start Game Mix</button>
+          </NavLink>
+          <NavLink to="/doglist">
+            <button className='navigation-button'>Learn dog breeds</button>
+          </NavLink>
+        </nav>
+        <div className='main-image'>
+          <img alt='dog' src='https://boygeniusreport.files.wordpress.com/2016/11/puppy-dog.jpg?quality=98&strip=all&w=782' />
+        </div>
         <h1>Press x to start the random game!</h1>
       </div>
     );

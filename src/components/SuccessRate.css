@@ -1,0 +1,10 @@
+.statistic {
+ text-align: left;
+}
+
+.statistic-container {
+  width: 250px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 10px;
+}
