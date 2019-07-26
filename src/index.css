@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/CUPnCfM/videoblocks-animal-paw-prints-by-frame-cartoon-comic-funny-paws-along-the-path-footprints-walking-animal-on-a-trajectory-of-movement_h-xf8pmsz_thumbnail-full15.png");
-  background-color: white;
 }
 
 code {
@@ -21,7 +20,10 @@ img {
 h1 {
   font-family: "Love Ya Like A Sister", cursive;
   font-size: 55px;
+  margin-right: 450px;
+  margin-left: 450px;
   color: rgb(57, 134, 185);
+  background-color: white;
 }
 
 h2 {

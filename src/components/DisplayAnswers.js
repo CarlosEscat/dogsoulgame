@@ -64,7 +64,9 @@ class DisplayAnswers extends React.Component {
 
     return (
       <div>
-        <p id="hint"> </p>
+        <p id="hint" className="hint-paragraph">
+          {" "}
+        </p>
         <br />
         {isVisible ? (
           <div>
