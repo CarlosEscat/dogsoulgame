@@ -31,7 +31,7 @@ class GameContainer extends Component {
       .every(value => value === true);
 
     if (
-      (this.props.userAnswers.length >= 5 * this.props.difficulty) &&
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
       condition === true
     ) {
       this.props.addDifficulty(1);
@@ -41,9 +41,9 @@ class GameContainer extends Component {
     request
       .get(
         `https://dog.ceo/api/breed/${
-        this.props.game.option[
-        Math.floor(Math.random() * this.props.game.option.length)
-        ]
+          this.props.game.option[
+            Math.floor(Math.random() * this.props.game.option.length)
+          ]
         }/images/random`
       )
       .then(res => {
@@ -92,25 +92,29 @@ class GameContainer extends Component {
   render() {
     return (
       <div className="game-one">
-        <button
-          onClick={() => {
-            this.props.addDifficulty(1);
-            this.props.addAdditionBreeds();
-          }}
-        >
-          Next Level
-        </button>
-        <div className="success-container">
-          <SuccessRate
-            success={this.props.userAnswers}
-            difficulty={this.props.difficulty}
+        <span>
+          <img
+            onClick={() => {
+              this.props.addDifficulty(1);
+              this.props.addAdditionBreeds();
+            }}
+            alt="level-up"
+            className="button"
+            src="../images/image_level_up.jpg"
           />
-        </div>
+
+          <NavLink to="/">
+            <img className="button" alt="Back" src="../images/image_back.jpg" />
+          </NavLink>
+        </span>
 
         <div className="game-one-container">
-          <NavLink to="/">
-            <img className='button' alt='Back' src='../images/image_back.jpg' />
-          </NavLink>
+          <div className="success-container">
+            <SuccessRate
+              success={this.props.userAnswers}
+              difficulty={this.props.difficulty}
+            />
+          </div>
 
           {this.showCorrectAnswer()}
 
@@ -119,20 +123,28 @@ class GameContainer extends Component {
           {this.props.game.url === '' ? (
             <p>loading</p>
           ) : (
-              <img
-                alt="dog"
-                className="dog-game-image"
-                src={this.props.game.url}
-              />
-            )}
+            <img
+              alt="dog"
+              className="dog-game-image"
+              src={this.props.game.url}
+            />
+          )}
           <br />
-          <img className='button' onClick={this.handleSubmit} alt='Next' src='../images/image_next.jpg' />
 
           <DisplayAnswers
             answer={this.props.game.correctAnswer}
             renderRandomImage={this.renderRandomImage}
             incorrectState={this.answeredIncorrectly}
             handleSubmit={this.props.handleSubmit}
+          />
+
+          <br />
+
+          <img
+            className="button"
+            onClick={this.handleSubmit}
+            alt="Next"
+            src="../images/image_next.jpg"
           />
         </div>
       </div>
