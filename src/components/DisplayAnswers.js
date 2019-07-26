@@ -6,13 +6,14 @@ import AnswerButton from './AnswerButton';
 import { breedsAlreadySeen } from '../actions/BreedOrder';
 
 import './DisplayAnswers.css';
+import randomIndex from './randomIndex';
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
 
-    const hint = document.getElementById("hint");
-    hint.textContent = "";
+    const hint = document.getElementById('hint');
+    hint.textContent = '';
 
     if (this.props.answer != null) {
       this.props.breedsAlreadySeen(this.props.answer);
@@ -49,9 +50,24 @@ class DisplayAnswers extends React.Component {
   };
 
   answersArray = () => {
-    if (Array.isArray(this.props.gameOptions))
-      return this.props.gameOptions.sort(() => Math.random() - 0.5).slice(0, 3);
-    else return ['But wait there is more!!!'];
+    if (Array.isArray(this.props.gameOptions)) {
+      const breeds = this.props.gameOptions.filter(
+        breed => this.props.answer !== breed
+      );
+
+      let arrayOfDogs = [];
+
+      while (2 > arrayOfDogs.length) {
+        const index = randomIndex(breeds.length),
+          dog = breeds[index];
+
+        if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
+      }
+
+      return [...arrayOfDogs, this.props.answer].sort(
+        () => Math.random() - 0.5
+      );
+    } else return ['But wait there is more!!!'];
   };
 
   render() {
@@ -60,19 +76,10 @@ class DisplayAnswers extends React.Component {
 
     return (
       <div>
-        <p id="hint"> </p>
+        <p id="hint" className="hint-paragraph">
+          {" "}
+        </p>
         <br />
-        {isVisible ? (
-          <button
-            id="hintButton"
-            className="hint-button"
-            onClick={this.showHint}
-          >
-            Hint
-          </button>
-        ) : (
-          <div />
-        )}
 
         {this.answersArray().map((answer, i) => (
           <AnswerButton
@@ -82,6 +89,22 @@ class DisplayAnswers extends React.Component {
             randomAnswers={answer}
           />
         ))}
+
+        <br />
+
+        {isVisible ? (
+          <div>
+            <img
+              className="button"
+              id="hintButton"
+              onClick={this.showHint}
+              alt="Hint"
+              src="../images/image_hint.jpg"
+            />
+          </div>
+        ) : (
+          <div />
+        )}
       </div>
     );
   }

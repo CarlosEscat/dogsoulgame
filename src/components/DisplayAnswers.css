@@ -5,3 +5,14 @@
   border-radius: 5px;
   font-size: 16px;
 }
+
+.hint-button {
+  background-color: rgb(45, 182, 41);
+  border-radius: 50%;
+  color: white;
+}
+
+.hint-paragraph {
+  color: rgb(12, 165, 20);
+  font-weight: bold;
+}

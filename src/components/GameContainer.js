@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
-import request from "superagent";
-import DisplayAnswers from "./DisplayAnswers";
-import SuccessRate from "./SuccessRate";
-import { gameUrl, addGameOneOptions, addAdditionBreeds } from "../actions";
-import { breedsAlreadySeen } from "../actions/BreedOrder";
-import { addDifficulty } from "../actions/addDifficulty";
-import "./GameContainer.css";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import request from 'superagent';
+import DisplayAnswers from './DisplayAnswers';
+import SuccessRate from './SuccessRate';
+import { gameUrl, addGameOneOptions, addAdditionBreeds } from '../actions';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
+import { addDifficulty } from '../actions/addDifficulty';
+import './GameContainer.css';
 
 class GameContainer extends Component {
   state = { answerIncorrectly: false };
@@ -31,7 +31,7 @@ class GameContainer extends Component {
       .every(value => value === true);
 
     if (
-      (this.props.userAnswers.length >= 5 * this.props.difficulty) &&
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
       condition === true
     ) {
       this.props.addDifficulty(1);
@@ -65,19 +65,19 @@ class GameContainer extends Component {
   };
 
   showCorrectAnswer = () => {
-    const buttons = document.getElementsByTagName("button");
+    const buttons = document.getElementsByTagName('button');
 
     if (this.state.answerIncorrectly === true) {
-      buttons[0].style.pointerEvents = "none";
-      buttons[1].style.pointerEvents = "none";
+      buttons[0].style.pointerEvents = 'none';
+      buttons[1].style.pointerEvents = 'none';
       // buttons[2].style.pointerEvents = 'none';
       // buttons[3].style.pointerEvents = 'none';
       // buttons[4].style.pointerEvents = 'none';
 
       return <h1>{this.props.game.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
-      buttons[0].style.pointerEvents = "auto";
-      buttons[1].style.pointerEvents = "auto";
+      buttons[0].style.pointerEvents = 'auto';
+      buttons[1].style.pointerEvents = 'auto';
       // buttons[2].style.pointerEvents = 'auto';
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
@@ -92,25 +92,29 @@ class GameContainer extends Component {
   render() {
     return (
       <div className="game-one">
-        <button
-          onClick={() => {
-            this.props.addDifficulty(1);
-            this.props.addAdditionBreeds();
-          }}
-        >
-          Next Level
-        </button>
-        <div className="success-container">
-          <SuccessRate
-            success={this.props.userAnswers}
-            difficulty={this.props.difficulty}
+        <span>
+          <img
+            onClick={() => {
+              this.props.addDifficulty(1);
+              this.props.addAdditionBreeds();
+            }}
+            alt="level-up"
+            className="button"
+            src="../images/image_level_up.jpg"
           />
-        </div>
+
+          <NavLink to="/">
+            <img className="button" alt="Back" src="../images/image_back.jpg" />
+          </NavLink>
+        </span>
 
         <div className="game-one-container">
-          <NavLink to="/">
-            <button className="navigation-button">Back</button>
-          </NavLink>
+          <div className="success-container">
+            <SuccessRate
+              success={this.props.userAnswers}
+              difficulty={this.props.difficulty}
+            />
+          </div>
 
           {this.showCorrectAnswer()}
 
@@ -126,15 +130,21 @@ class GameContainer extends Component {
             />
           )}
           <br />
-          <button className="navigation-button" onClick={this.handleSubmit}>
-            Next
-          </button>
 
           <DisplayAnswers
             answer={this.props.game.correctAnswer}
             renderRandomImage={this.renderRandomImage}
             incorrectState={this.answeredIncorrectly}
             handleSubmit={this.props.handleSubmit}
+          />
+
+          <br />
+
+          <img
+            className="button"
+            onClick={this.handleSubmit}
+            alt="Next"
+            src="../images/image_next.jpg"
           />
         </div>
       </div>
