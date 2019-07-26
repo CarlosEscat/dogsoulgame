@@ -40,9 +40,9 @@ class GameContainer extends Component {
     request
       .get(
         `https://dog.ceo/api/breed/${
-          this.props.game.option[
-            Math.floor(Math.random() * this.props.game.option.length)
-          ]
+        this.props.game.option[
+        Math.floor(Math.random() * this.props.game.option.length)
+        ]
         }/images/random`
       )
       .then(res => {
@@ -90,32 +90,36 @@ class GameContainer extends Component {
 
   render() {
     return (
-      <div>
-        <SuccessRate success={this.props.userAnswers} />
+      <div className='game-one'>
+        <div className='success-container'>
+          <SuccessRate success={this.props.userAnswers} difficulty={this.props.difficulty} />
+        </div>
+        
+        <div className='game-one-container'>
+          <NavLink to="/">
+            <button className="navigation-button">Back</button>
+          </NavLink>
 
-        <NavLink to="/">
-          <button className="navigation-button">Back</button>
-        </NavLink>
+          {this.showCorrectAnswer()}
 
-        {this.showCorrectAnswer()}
-
-        <br />
-        {this.props.game.url === '' ? (
-          <p>loading</p>
-        ) : (
-          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-        )}
-        <br />
-        <button className="navigation-button" onClick={this.handleSubmit}>
-          Next
+          <br />
+          {this.props.game.url === '' ? (
+            <p>loading</p>
+          ) : (
+              <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+            )}
+          <br />
+          <button className="navigation-button" onClick={this.handleSubmit}>
+            Next
         </button>
 
-        <DisplayAnswers
-          answer={this.props.game.correctAnswer}
-          renderRandomImage={this.renderRandomImage}
-          incorrectState={this.answeredIncorrectly}
-          handleSubmit={this.props.handleSubmit}
-        />
+          <DisplayAnswers
+            answer={this.props.game.correctAnswer}
+            renderRandomImage={this.renderRandomImage}
+            incorrectState={this.answeredIncorrectly}
+            handleSubmit={this.props.handleSubmit}
+          />
+        </div>
       </div>
     );
   }

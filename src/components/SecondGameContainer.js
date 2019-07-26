@@ -171,7 +171,7 @@ class SecondGameContainer extends Component {
   render() {
     return (
       <div>
-        <SuccessRate success={this.props.userAnswers} />
+        <SuccessRate success={this.props.userAnswers} difficulty={this.props.difficulty} />
 
         <NavLink to="/">
           <button className="navigation-button">Back</button>

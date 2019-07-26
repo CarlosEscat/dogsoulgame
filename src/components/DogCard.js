@@ -25,19 +25,21 @@ class DogCard extends Component {
   render() {
     const { breed } = this.props;
     return (
-        <div className='dog-card'>
-          {this.state.url ? (
+      <div className='dog-card'>
+        {this.state.url ? (
+          <Link to={`/dog-breeds/${breed}`}>
             <img
               className="listImages"
               src={this.state.url}
               alt="Dog"
               key={`${breed}1`}
             />
-          ) : (
-              'Woof Woof'
-            )}
-          <p className='dog-card-text' key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</p>
-        </div>
+          </Link>
+        ) : (
+            'Woof Woof'
+          )}
+        <p className='dog-card-text' key={breed}>{breed}</p>
+      </div>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './SuccessRate.css';
 
 export default class SuccessRate extends Component {
   successRateObject = answers => {
@@ -22,10 +23,11 @@ export default class SuccessRate extends Component {
     );
 
     return (
-      <div>
-        <h3>Success Rate: {percentage}%</h3>
-        <h3>Correct: {correct}</h3>
-        <h3>Wrong: {wrong}</h3>
+      <div className='statistic-container'>
+        <h3 className='statistic'>Difficulty level: {this.props.difficulty}</h3>
+        <h3 className='statistic'>Success Rate: {percentage}%</h3>
+        <h3 className='statistic'>Correct: {correct}</h3>
+        <h3 className='statistic'>Wrong: {wrong}</h3>
       </div>
     );
   }
