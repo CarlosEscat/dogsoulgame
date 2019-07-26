@@ -10,6 +10,7 @@ import './DisplayAnswers.css';
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
+
     const hint = document.getElementById("hint");
     hint.textContent = "";
 
