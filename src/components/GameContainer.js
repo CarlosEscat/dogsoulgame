@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
-import request from "superagent";
-import DisplayAnswers from "./DisplayAnswers";
-import SuccessRate from "./SuccessRate";
-import { gameUrl, addGameOneOptions, addAdditionBreeds } from "../actions";
-import { breedsAlreadySeen } from "../actions/BreedOrder";
-import { addDifficulty } from "../actions/addDifficulty";
-import "./GameContainer.css";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import request from 'superagent';
+import DisplayAnswers from './DisplayAnswers';
+import SuccessRate from './SuccessRate';
+import { gameUrl, addGameOneOptions, addAdditionBreeds } from '../actions';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
+import { addDifficulty } from '../actions/addDifficulty';
+import './GameContainer.css';
 
 class GameContainer extends Component {
   state = { answerIncorrectly: false };
@@ -65,19 +65,19 @@ class GameContainer extends Component {
   };
 
   showCorrectAnswer = () => {
-    const buttons = document.getElementsByTagName("button");
+    const buttons = document.getElementsByTagName('button');
 
     if (this.state.answerIncorrectly === true) {
-      buttons[0].style.pointerEvents = "none";
-      buttons[1].style.pointerEvents = "none";
+      buttons[0].style.pointerEvents = 'none';
+      buttons[1].style.pointerEvents = 'none';
       // buttons[2].style.pointerEvents = 'none';
       // buttons[3].style.pointerEvents = 'none';
       // buttons[4].style.pointerEvents = 'none';
 
       return <h1>{this.props.game.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
-      buttons[0].style.pointerEvents = "auto";
-      buttons[1].style.pointerEvents = "auto";
+      buttons[0].style.pointerEvents = 'auto';
+      buttons[1].style.pointerEvents = 'auto';
       // buttons[2].style.pointerEvents = 'auto';
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';

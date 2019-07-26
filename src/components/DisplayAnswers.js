@@ -53,6 +53,7 @@ class DisplayAnswers extends React.Component {
       const breeds = this.props.gameOptions
         .filter(breed => this.props.answer !== breed)
         .slice(0, 2);
+
       return [...breeds, this.props.answer].sort(() => Math.random() - 0.5);
     } else return ['But wait there is more!!!'];
   };
