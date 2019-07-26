@@ -10,6 +10,8 @@ import './DisplayAnswers.css';
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
+    const hint = document.getElementById("hint");
+    hint.textContent = "";
 
     if (this.props.answer != null) {
       this.props.breedsAlreadySeen(this.props.answer);
