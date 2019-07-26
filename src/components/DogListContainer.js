@@ -1,47 +1,47 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { NavLink, Redirect } from 'react-router-dom';
-import Mousetrap from 'mousetrap'
-import { setBreedState } from '../actions';
-import { setDifficulty } from '../actions/setDifficulty'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { NavLink, Redirect } from "react-router-dom";
+import Mousetrap from "mousetrap";
+import { setBreedState } from "../actions";
+import { setDifficulty } from "../actions/setDifficulty";
 
-import './GameContainer.css'
-import './DogListContainer.css'
+import "./GameContainer.css";
+import "./DogListContainer.css";
 
 class DogsListContainer extends Component {
   //state for keyboard shortcut
   state = {
     redirect: false
-  }
+  };
 
   componentDidMount() {
     //fetching the array of breeds
-    this.props.setBreedState()
+    this.props.setBreedState();
 
     //setting the initial level of difficulty to 1
     if (parseInt(this.props.difficulty) < 1) {
-      this.props.setDifficulty(1)
+      this.props.setDifficulty(1);
     }
     //keyboard shortcut listener
-    Mousetrap.bind(['x'], this.setRedirect);
+    Mousetrap.bind(["x"], this.setRedirect);
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind(['x'], this.setRedirect);
+    Mousetrap.unbind(["x"], this.setRedirect);
   }
 
   //setRedirect and renderRedirect used for keyboard Shortcut to start the game
   setRedirect = () => {
     this.setState({
       redirect: true
-    })
-  }
+    });
+  };
   //navigating to the game mix
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/gamemix' />
+      return <Redirect to="/gamemix" />;
     }
-  }
+  };
 
   render() {
     return (
@@ -49,22 +49,25 @@ class DogsListContainer extends Component {
         {this.renderRedirect()}
         <nav>
           <NavLink to="/gameone">
-            <button className='navigation-button'>Start First Game</button>
+            <button className="navigation-button">Start First Game</button>
           </NavLink>
           <NavLink to="/gametwo">
-            <button className='navigation-button'>Start Second Game</button>
+            <button className="navigation-button">Start Second Game</button>
           </NavLink>
           <NavLink to="/gamemix">
-            <button className='navigation-button'>Start Game Mix</button>
+            <button className="navigation-button">Start Game Mix</button>
           </NavLink>
           <NavLink to="/doglist">
-            <button className='navigation-button'>Learn dog breeds</button>
+            <button className="navigation-button">Learn dog breeds</button>
           </NavLink>
         </nav>
-        <div className='main-image'>
-          <img alt='dog' src='https://boygeniusreport.files.wordpress.com/2016/11/puppy-dog.jpg?quality=98&strip=all&w=782' />
+        <div className="main-image">
+          <img
+            alt="dog"
+            src="https://boygeniusreport.files.wordpress.com/2016/11/puppy-dog.jpg?quality=98&strip=all&w=782"
+          />
         </div>
-        <h1>Press x to start the random game!</h1>
+        <h2>Press x to start the random game!</h2>
       </div>
     );
   }

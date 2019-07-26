@@ -12,19 +12,20 @@
 .dog-card {
   /* border: 1px solid black; */
   border-radius: 5px;
-  width:300px;
+  width: 300px;
   height: 250px;
   break-inside: avoid;
   page-break-inside: avoid;
   margin: 15px;
-  float:left;
+  float: left;
 }
 
 .dog-card-text {
   font-size: 20px;
-  font-family: 'Nunito', 'Noto Sans KR', sans-serif;
-  border: 1px solid black;
-  width:300px;
+  font-family: "Love Ya Like A Sister", cursive;
+  border: 1px solid rgb(96, 171, 221);
+  width: 300px;
   height: 30px;
   border-radius: 5px;
+  color: rgb(15, 90, 139);
 }
