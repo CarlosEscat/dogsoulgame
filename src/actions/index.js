@@ -16,8 +16,9 @@ export const addGameOneOptions = () => (dispatch, getState) => {
   const length = state.difficulty * 3;
 
   while (length > arrayOfDogs.length) {
-    const index = randomIndex(state.breeds.length);
-    const dog = state.breeds[index];
+    const index = randomIndex(state.breeds.length),
+      dog = state.breeds[index];
+
     if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
   }
 
@@ -35,8 +36,9 @@ export const addAdditionBreeds = () => (dispatch, getState) => {
   const length = state.difficulty * 3;
   if (arrayOfDogs.length < 70) {
     while (length > arrayOfDogs.length) {
-      const index = randomIndex(state.breeds.length);
-      const dog = state.breeds[index];
+      const index = randomIndex(state.breeds.length),
+        dog = state.breeds[index];
+
       if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
     }
 
