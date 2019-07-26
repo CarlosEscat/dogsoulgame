@@ -22,6 +22,22 @@ export const addGameOneOptions = () => (dispatch, getState) => {
   });
 };
 
+export const addAdditionBreeds = () => (dispatch, getState) => {
+  const state = getState();
+
+  let arrayOfDogs = state.game.option;
+  while (state.difficulty * 3 !== arrayOfDogs.length) {
+    arrayOfDogs.push(state.breeds[randomIndex(getState().breeds.length)]);
+
+    arrayOfDogs.filter((breed, index) => arrayOfDogs.indexOf(breed) === index);
+  }
+
+  dispatch({
+    type: GAME_ONE_OPTIONS,
+    payload: arrayOfDogs
+  });
+};
+
 export const setBreedState = () => {
   return function(dispatch, getState) {
     if (getState().breeds.length === 0) {

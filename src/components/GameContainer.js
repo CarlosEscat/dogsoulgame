@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameUrl, addGameOneOptions } from '../actions';
+import { gameUrl, addGameOneOptions, addAdditionBreeds } from '../actions';
 import { breedsAlreadySeen } from '../actions/BreedOrder';
 import { addDifficulty } from '../actions/addDifficulty';
 import './GameContainer.css';
@@ -35,6 +35,7 @@ class GameContainer extends Component {
       condition === true
     ) {
       this.props.addDifficulty(1);
+      this.props.addAdditionBreeds();
     }
 
     request
@@ -91,26 +92,34 @@ class GameContainer extends Component {
   render() {
     return (
       <div className='game-one'>
-        <div className='success-container'>
-          <SuccessRate success={this.props.userAnswers} difficulty={this.props.difficulty} />
-        </div>
-        
-        <div className='game-one-container'>
-          <NavLink to="/">
-            <button className="navigation-button">Back</button>
-          </NavLink>
+        <button
+          onClick={() => {
+            this.props.addDifficulty(1);
+            this.props.addAdditionBreeds();
+          }}
+        >
+          Next Level
+        </button>
+<div className='success-container'>
+        <SuccessRate success={this.props.userAnswers} />
+           </div>
 
-          {this.showCorrectAnswer()}
+<div className='game-one-container'>
+        <NavLink to="/">
+          <button className="navigation-button">Back</button>
+        </NavLink>
 
-          <br />
-          {this.props.game.url === '' ? (
-            <p>loading</p>
-          ) : (
-              <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-            )}
-          <br />
-          <button className="navigation-button" onClick={this.handleSubmit}>
-            Next
+        {this.showCorrectAnswer()}
+
+        <br />
+        {this.props.game.url === '' ? (
+          <p>loading</p>
+        ) : (
+          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
+        )}
+        <br />
+        <button className="navigation-button" onClick={this.handleSubmit}>
+          Next
         </button>
 
           <DisplayAnswers
@@ -120,6 +129,7 @@ class GameContainer extends Component {
             handleSubmit={this.props.handleSubmit}
           />
         </div>
+</div>
       </div>
     );
   }
@@ -135,5 +145,11 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
 
-  { gameUrl, breedsAlreadySeen, addDifficulty, addGameOneOptions }
+  {
+    gameUrl,
+    breedsAlreadySeen,
+    addDifficulty,
+    addGameOneOptions,
+    addAdditionBreeds
+  }
 )(GameContainer);
