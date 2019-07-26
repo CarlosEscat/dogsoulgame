@@ -8,6 +8,7 @@ import './GameContainer.css';
 class GameMix extends Component {
   state = { game: false };
 
+  //changes the oder of the displayed games
   handleSubmit = () => this.setState({ game: Math.random() >= 0.5 });
 
   render() {
@@ -16,8 +17,8 @@ class GameMix extends Component {
         {this.state.game ? (
           <GameContainer handleSubmit={this.handleSubmit} />
         ) : (
-          <SecondGameContainer handleSubmit={this.handleSubmit} />
-        )}
+            <SecondGameContainer handleSubmit={this.handleSubmit} />
+          )}
       </div>
     );
   }

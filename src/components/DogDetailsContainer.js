@@ -6,7 +6,9 @@ import { addBreedImages } from '../actions/addBreedImages';
 
 class DogDetailsContainer extends Component {
   componentDidMount() {
+    //fetching 10 images of the chosen breed
     const breed = this.props.match.params.breed;
+
     request
       .get(`https://dog.ceo/api/breed/${encodeURIComponent(breed)}/images`)
       .then(response => {
@@ -21,7 +23,7 @@ class DogDetailsContainer extends Component {
         images={this.props.imagesDetails}
         breed={this.props.match.params.breed}
       />
-    ); //
+    );
   }
 }
 

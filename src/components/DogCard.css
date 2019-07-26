@@ -1,14 +1,21 @@
 .listImages {
-  max-width: 200px;
-  max-height: 200px;
-  padding-top: 3px;
+  width: 200px;
+  height: 200px;
+  padding-top: 5px;
 }
 
 .dog-card {
   border: 1px solid black;
-  width: 250px;
+  border-radius: 5px;
+  width:300px;
   height: 250px;
   break-inside: avoid;
   page-break-inside: avoid;
-  margin: 10px;
+  margin: 15px;
+  float:left;
+}
+
+.dog-card-text {
+  display: block; 
+  font-size: 18px;
 }
