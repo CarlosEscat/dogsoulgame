@@ -8,7 +8,7 @@ import { gameUrl } from '../actions/index';
 
 import { addUserAnswer } from '../actions/userAnswers';
 import { addDifficulty } from '../actions/addDifficulty';
-import { addImagesObjects } from '../actions/addImagesObjects'
+import { addImagesObjects } from '../actions/addImagesObjects';
 
 import './GameContainer.css';
 
@@ -23,8 +23,8 @@ class SecondGameContainer extends Component {
 
   componentDidMount() {
     this.renderRightImage();
-    console.log('this.props.breeds', this.props.breeds)
-    this.props.breeds.map(breed => this.props.addImagesObjects(breed))
+    console.log('this.props.breeds', this.props.breeds);
+    this.props.breeds.map(breed => this.props.addImagesObjects(breed));
   }
 
   renderRightImage = () => {
@@ -49,29 +49,26 @@ class SecondGameContainer extends Component {
       .catch(console.error);
   };
 
+  incorrectState = () =>
+    this.setState({ answerIncorrectly: !this.state.answerIncorrectly });
+
   checkForCorrect = event => {
     event.preventDefault();
 
-    if (event.target.id === this.props.game.url) {
-      this.props.addUserAnswer(true);
+    const { props, renderRightImage, incorrectState } = this,
+      { game, addUserAnswer, handleSubmit } = props;
 
-      this.renderRightImage();
-
-      if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
+    if (event.target.id === game.url) {
+      addUserAnswer(true);
+      renderRightImage();
+      if (handleSubmit !== undefined) handleSubmit();
     } else {
-      this.props.addUserAnswer(false);
-      this.setState({
-        answerIncorrectly: !this.state.answerIncorrectly
-      });
-
+      addUserAnswer(false);
+      incorrectState();
       setTimeout(() => {
         this.renderRightImage();
-
-        this.setState({
-          answerIncorrectly: !this.state.answerIncorrectly
-        });
-
-        if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
+        incorrectState();
+        if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
