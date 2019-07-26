@@ -13,8 +13,13 @@ export const addGameOneOptions = () => (dispatch, getState) => {
 
   let arrayOfDogs = [];
 
-  for (let i = 0; i < state.difficulty * 3; i++)
-    arrayOfDogs.push(state.breeds[randomIndex(getState().breeds.length)]);
+  const length = state.difficulty * 3;
+
+  while (length > arrayOfDogs.length) {
+    const index = randomIndex(state.breeds.length);
+    const dog = state.breeds[index];
+    if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
+  }
 
   dispatch({
     type: GAME_ONE_OPTIONS,
@@ -27,19 +32,21 @@ export const addAdditionBreeds = () => (dispatch, getState) => {
 
   let arrayOfDogs = state.game.option;
 
-  while (state.difficulty * 3 !== arrayOfDogs.length) {
-    const filterer = arrayOfDogs.filter(
-      (breed, index) => arrayOfDogs.indexOf(breed) === index
-    );
-    console.log(filterer.length, arrayOfDogs.length);
+  const length = state.difficulty * 3;
+  if (arrayOfDogs.length < 70) {
+    while (length > arrayOfDogs.length) {
+      const index = randomIndex(state.breeds.length);
+      const dog = state.breeds[index];
+      if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
+    }
 
-    arrayOfDogs.push(state.breeds[randomIndex(getState().breeds.length)]);
+    console.log('finalArrayOfDogs test:', arrayOfDogs.length);
+
+    dispatch({
+      type: GAME_ONE_OPTIONS,
+      payload: arrayOfDogs
+    });
   }
-
-  dispatch({
-    type: GAME_ONE_OPTIONS,
-    payload: arrayOfDogs
-  });
 };
 
 export const setBreedState = () => {
