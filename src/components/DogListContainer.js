@@ -47,24 +47,23 @@ class DogsListContainer extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <nav>
+        <div>
           <NavLink to="/gameone">
-            <button className='navigation-button'>Start First Game</button>
+            <img className='button' alt='First game' src='../images/image_first_game.jpg' />
           </NavLink>
           <NavLink to="/gametwo">
-            <button className='navigation-button'>Start Second Game</button>
+            <img className='button' alt='Second game' src='../images/image_second_game.jpg' />
           </NavLink>
           <NavLink to="/gamemix">
-            <button className='navigation-button'>Start Game Mix</button>
+            <img className='button' alt='Game Mix' src='../images/image_game_mix.jpg' />
           </NavLink>
           <NavLink to="/doglist">
-            <button className='navigation-button'>Learn dog breeds</button>
+            <img className='button' alt='First game' src='../images/image_dog_breeds.jpg' />
           </NavLink>
-        </nav>
-        <div className='main-image'>
-          <img alt='dog' src='https://boygeniusreport.files.wordpress.com/2016/11/puppy-dog.jpg?quality=98&strip=all&w=782' />
         </div>
-        <h1>Press x to start the random game!</h1>
+        <div className='main-image'>
+          <img alt='Press x to start the random game!' src='../images/puppy-dog.jpg' />
+        </div>
       </div>
     );
   }
