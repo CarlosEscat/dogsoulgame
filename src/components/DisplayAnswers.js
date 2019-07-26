@@ -67,16 +67,13 @@ class DisplayAnswers extends React.Component {
         <p id="hint"> </p>
         <br />
         {isVisible ? (
-          <button
-            id="hintButton"
-            className="hint-button"
-            onClick={this.showHint}
-          >
-            Hint
-          </button>
+          <div>
+            <img className='button' id="hintButton"
+              onClick={this.showHint} alt='Hint' src='../images/image_hint.jpg' />
+          </div>
         ) : (
-          <div />
-        )}
+            <div />
+          )}
 
         {this.answersArray().map((answer, i) => (
           <AnswerButton

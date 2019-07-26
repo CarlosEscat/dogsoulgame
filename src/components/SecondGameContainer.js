@@ -33,7 +33,7 @@ class SecondGameContainer extends Component {
       .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
       .every(value => value === true);
     if (
-      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      (this.props.userAnswers.length >= 5 * this.props.difficulty) &&
       condition === true
     ) {
       this.props.addDifficulty(1);
@@ -108,53 +108,53 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
-          <button
-            style={{ background: 'none', border: 'none' }}
-            onClick={this.checkForCorrect}
-          >
-            <img
-              id={urls[0]}
-              alt="dog"
-              className="dog-game-image"
-              src={urls[0]}
-            />
-          </button>
-        )}
+            <button
+              style={{ background: 'none', border: 'none' }}
+              onClick={this.checkForCorrect}
+            >
+              <img
+                id={urls[0]}
+                alt="dog"
+                className="dog-game-image"
+                src={urls[0]}
+              />
+            </button>
+          )}
 
         {this.props.imagesObjects.length === 0 ? (
           <h1>Stop</h1>
         ) : (
-          <span>
-            <button
-              style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
-            >
-              <img
-                id={urls[1]}
-                alt="dog"
-                className="dog-game-image"
-                src={urls[1]}
-              />
-            </button>
+            <span>
+              <button
+                style={{ background: 'none', border: 'none' }}
+                onClick={this.checkForCorrect}
+              >
+                <img
+                  id={urls[1]}
+                  alt="dog"
+                  className="dog-game-image"
+                  src={urls[1]}
+                />
+              </button>
 
-            <button
-              style={{ background: 'none', border: 'none' }}
-              onClick={this.checkForCorrect}
-            >
-              <img
-                id={urls[2]}
-                alt="dog"
-                className="dog-game-image"
-                src={urls[2]}
-              />
-            </button>
-          </span>
-        )}
+              <button
+                style={{ background: 'none', border: 'none' }}
+                onClick={this.checkForCorrect}
+              >
+                <img
+                  id={urls[2]}
+                  alt="dog"
+                  className="dog-game-image"
+                  src={urls[2]}
+                />
+              </button>
+            </span>
+          )}
 
         <br />
-        <button className="navigation-button" onClick={this.handleSubmit}>
-          Next
-        </button>
+        <div>
+          <img className='button' onClick={this.handleSubmit} alt='Next' src='../images/image_next.jpg' />
+        </div>
       </span>
     );
   };
@@ -174,7 +174,7 @@ class SecondGameContainer extends Component {
         <SuccessRate success={this.props.userAnswers} difficulty={this.props.difficulty} />
 
         <NavLink to="/">
-          <button className="navigation-button">Back</button>
+          <img className='button' alt='Back' src='../images/image_back.jpg' />
         </NavLink>
 
         {this.showCorrectAnswer()}
