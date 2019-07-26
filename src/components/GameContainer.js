@@ -1,59 +1,86 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import request from 'superagent';
-
-import DisplayAnswers from './DisplayAnswers';
-import SuccessRate from './SuccessRate';
-import { gameUrl } from '../actions';
-import { BreedsAlreadySeen } from '../actions/BreedOrder'
-
-import './GameContainer.css';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import request from "superagent";
+import DisplayAnswers from "./DisplayAnswers";
+import SuccessRate from "./SuccessRate";
+import { gameUrl, addGameOneOptions, addAdditionBreeds } from "../actions";
+import { breedsAlreadySeen } from "../actions/BreedOrder";
+import { addDifficulty } from "../actions/addDifficulty";
+import "./GameContainer.css";
 
 class GameContainer extends Component {
   state = { answerIncorrectly: false };
 
   componentDidMount() {
-    this.renderRandomImage();
+    this.didMount();
   }
 
-  renderRandomImage = () =>
+  async didMount() {
+    try {
+      await this.props.addGameOneOptions();
+      await this.renderRandomImage();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  renderRandomImage = () => {
+    const condition = this.props.userAnswers
+      .slice(this.props.userAnswers.length - 5, this.props.userAnswers.length)
+      .every(value => value === true);
+
+    if (
+      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      condition === true
+    ) {
+      this.props.addDifficulty(1);
+      this.props.addAdditionBreeds();
+    }
+
     request
-      .get('https://dog.ceo/api/breeds/image/random')
+      .get(
+        `https://dog.ceo/api/breed/${
+          this.props.game.option[
+            Math.floor(Math.random() * this.props.game.option.length)
+          ]
+        }/images/random`
+      )
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
-          correctAnswer: res.body.message.split('/')[4]
+          correctAnswer: res.body.message.split('/')[4].split('-')[0]
         });
       })
       .catch(console.error);
+  };
 
   handleSubmit = event => {
     event.preventDefault();
 
     this.renderRandomImage();
+    if (this.props.game.correctAnswer != null) {
+      this.props.breedsAlreadySeen(this.props.game.correctAnswer);
+    }
   };
 
   showCorrectAnswer = () => {
-    const buttons = document.getElementsByTagName('button');
+    const buttons = document.getElementsByTagName("button");
 
     if (this.state.answerIncorrectly === true) {
-      buttons[0].style.pointerEvents = 'none';
-      buttons[1].style.pointerEvents = 'none';
+      buttons[0].style.pointerEvents = "none";
+      buttons[1].style.pointerEvents = "none";
       // buttons[2].style.pointerEvents = 'none';
       // buttons[3].style.pointerEvents = 'none';
       // buttons[4].style.pointerEvents = 'none';
 
       return <h1>{this.props.game.correctAnswer}</h1>;
     } else if (buttons.length > 2) {
-      buttons[0].style.pointerEvents = 'auto';
-      buttons[1].style.pointerEvents = 'auto';
+      buttons[0].style.pointerEvents = "auto";
+      buttons[1].style.pointerEvents = "auto";
       // buttons[2].style.pointerEvents = 'auto';
       // buttons[3].style.pointerEvents = 'auto';
       // buttons[4].style.pointerEvents = 'auto';
-    }
-    if (this.state.correctAnswer !== '') {
-      this.props.BreedsAlreadySeen(this.state.correctAnswer);
     }
   };
 
@@ -64,32 +91,52 @@ class GameContainer extends Component {
 
   render() {
     return (
-      <div>
-        <SuccessRate success={this.props.userAnswers} />
-
-        <NavLink to="/">
-          <button className="navigation-button">Back</button>
-        </NavLink>
-
-        {this.showCorrectAnswer()}
-
-        <br />
-        {this.props.game.url === '' ? (
-          <p>loading</p>
-        ) : (
-          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-        )}
-        <br />
-        <button className="navigation-button" onClick={this.handleSubmit}>
-          Next
+      <div className="game-one">
+        <button
+          onClick={() => {
+            this.props.addDifficulty(1);
+            this.props.addAdditionBreeds();
+          }}
+        >
+          Next Level
         </button>
+        <div className="success-container">
+          <SuccessRate
+            success={this.props.userAnswers}
+            difficulty={this.props.difficulty}
+          />
+        </div>
 
-        <DisplayAnswers
-          answer={this.props.game.correctAnswer}
-          renderRandomImage={this.renderRandomImage}
-          incorrectState={this.answeredIncorrectly}
-          handleSubmit={this.props.handleSubmit}
-        />
+        <div className="game-one-container">
+          <NavLink to="/">
+            <button className="navigation-button">Back</button>
+          </NavLink>
+
+          {this.showCorrectAnswer()}
+
+          <br />
+
+          {this.props.game.url === '' ? (
+            <p>loading</p>
+          ) : (
+            <img
+              alt="dog"
+              className="dog-game-image"
+              src={this.props.game.url}
+            />
+          )}
+          <br />
+          <button className="navigation-button" onClick={this.handleSubmit}>
+            Next
+          </button>
+
+          <DisplayAnswers
+            answer={this.props.game.correctAnswer}
+            renderRandomImage={this.renderRandomImage}
+            incorrectState={this.answeredIncorrectly}
+            handleSubmit={this.props.handleSubmit}
+          />
+        </div>
       </div>
     );
   }
@@ -97,11 +144,19 @@ class GameContainer extends Component {
 
 const mapStateToProps = state => ({
   userAnswers: state.userAnswers,
-  breedOrder: state.breedOrder,
-  game: state.game
+  breedsLearned: state.breedsAlreadySeen,
+  game: state.game,
+  difficulty: state.difficulty
 });
 
 export default connect(
   mapStateToProps,
-  { gameUrl, BreedsAlreadySeen }
+
+  {
+    gameUrl,
+    breedsAlreadySeen,
+    addDifficulty,
+    addGameOneOptions,
+    addAdditionBreeds
+  }
 )(GameContainer);

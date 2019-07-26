@@ -9,6 +9,7 @@ class DogCard extends Component {
   state = { url: null };
 
   componentDidMount() {
+    //fetching the random image of all the breads
     request
       .get(
         `https://dog.ceo/api/breed/${encodeURIComponent(
@@ -24,18 +25,20 @@ class DogCard extends Component {
   render() {
     const { breed } = this.props;
     return (
-      <div>
+      <div className='dog-card'>
         {this.state.url ? (
-          <img
-            className="listImages"
-            src={this.state.url}
-            alt="Dog"
-            key={`${breed}1`}
-          />
+          <Link to={`/dog-breeds/${breed}`}>
+            <img
+              className="listImages"
+              src={this.state.url}
+              alt="Dog"
+              key={`${breed}1`}
+            />
+          </Link>
         ) : (
-          'Woof Woof'
-        )}
-        <li key={breed}>{<Link to={`/dog-breeds/${breed}`}>{breed}</Link>}</li>
+            'Woof Woof'
+          )}
+        <p className='dog-card-text' key={breed}>{breed}</p>
       </div>
     );
   }

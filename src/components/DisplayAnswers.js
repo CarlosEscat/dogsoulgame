@@ -1,13 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { addUserAnswer } from '../actions/userAnswers';
-import randomIndex from './randomIndex';
+import AnswerButton from './AnswerButton';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
+
 import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
-//
+
+    const hint = document.getElementById("hint");
+    hint.textContent = "";
+
+    if (this.props.answer != null) {
+      this.props.breedsAlreadySeen(this.props.answer);
+    }
+
     const {
       addUserAnswer,
       renderRandomImage,
@@ -19,70 +29,71 @@ class DisplayAnswers extends React.Component {
     if (answer === event.target.value) {
       addUserAnswer(true);
       renderRandomImage();
-      if (this.props.handleSubmit !== undefined) handleSubmit();
+      if (handleSubmit !== undefined) handleSubmit();
     } else {
       addUserAnswer(false);
       incorrectState();
       setTimeout(() => {
         renderRandomImage();
         incorrectState();
-        if (this.props.handleSubmit !== undefined) handleSubmit();
+        if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
 
+  showHint = () => {
+    const correctAnswer = this.props.answer;
+    const hint = document.getElementById('hint');
+    hint.textContent =
+      'The correct breed has the letter: ' + correctAnswer.charAt(2) + '';
+  };
+
+  answersArray = () => {
+    if (Array.isArray(this.props.gameOptions))
+      return this.props.gameOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+    else return ['But wait there is more!!!'];
+  };
+
   render() {
-    const { answer, breeds } = this.props;
-
-    const randomName1 = breeds[randomIndex(breeds.length)];
-    const randomName2 = breeds[randomIndex(breeds.length)];
-
-    const randomAnswers = [
-      answer,
-      randomName1 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName1,
-      randomName2 === undefined
-        ? 'Go back and start the game again please!!!'
-        : randomName2
-    ].sort();
+    const { answer, breedsLearned } = this.props;
+    const isVisible = !breedsLearned.includes(answer);
 
     return (
       <div>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[0]}
-        >
-          {randomAnswers[0]}
-        </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[1]}
-        >
-          {randomAnswers[1]}
-        </button>
-        <button
-          className="answer-button"
-          onClick={this.handleClick}
-          value={randomAnswers[2]}
-        >
-          {randomAnswers[2]}
-        </button>
+        <p id="hint"> </p>
+        <br />
+        {isVisible ? (
+          <button
+            id="hintButton"
+            className="hint-button"
+            onClick={this.showHint}
+          >
+            Hint
+          </button>
+        ) : (
+          <div />
+        )}
+
+        {this.answersArray().map((answer, i) => (
+          <AnswerButton
+            id={`${i}`}
+            key={i}
+            handleClick={this.handleClick}
+            randomAnswers={answer}
+          />
+        ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userAnswers: state.userAnswers,
-    breeds: state.breeds
-  };
-};
+const mapStateToProps = state => ({
+  userAnswers: state.userAnswers,
+  gameOptions: state.game.option,
+  breedsLearned: state.breedsAlreadySeen
+});
 
 export default connect(
   mapStateToProps,
-  { addUserAnswer }
+  { addUserAnswer, breedsAlreadySeen }
 )(DisplayAnswers);
