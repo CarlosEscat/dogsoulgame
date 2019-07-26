@@ -31,7 +31,7 @@ class GameContainer extends Component {
       .every(value => value === true);
 
     if (
-      this.props.userAnswers.length >= 5 * this.props.difficulty &&
+      (this.props.userAnswers.length >= 5 * this.props.difficulty) &&
       condition === true
     ) {
       this.props.addDifficulty(1);
