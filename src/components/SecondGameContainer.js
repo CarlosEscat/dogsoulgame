@@ -7,7 +7,7 @@ import randomIndex from './randomIndex';
 import { gameUrl } from '../actions/index';
 import { addUserAnswer } from '../actions/userAnswers';
 import { addDifficulty } from '../actions/addDifficulty';
-import { addImagesObjects } from '../actions/addImagesObjects'
+import { addImagesObjects } from '../actions/addImagesObjects';
 
 import './GameContainer.css';
 
@@ -22,10 +22,10 @@ class SecondGameContainer extends Component {
 
   componentDidMount() {
     this.renderRightImage();
-    //fetching the imagesObjects collection of breeds and urls of photos
-    this.props.breeds.map(breed => this.props.addImagesObjects(breed))
-  }
 
+    //fetching the imagesObjects collection of breeds and urls of photos
+    this.props.breeds.map(breed => this.props.addImagesObjects(breed));
+  }
 
   renderRightImage = () => {
     //adding th difficulty of the game if there is a 5 correct answers in a row
@@ -51,32 +51,30 @@ class SecondGameContainer extends Component {
       .catch(console.error);
   };
 
+  incorrectState = () =>
+    this.setState({ answerIncorrectly: !this.state.answerIncorrectly });
+
   checkForCorrect = event => {
     event.preventDefault();
 
+    const { props, renderRightImage, incorrectState } = this,
+      { game, addUserAnswer, handleSubmit } = props;
+
     // condition for the correct answer
-    if (event.target.id === this.props.game.url) {
-      this.props.addUserAnswer(true);
 
-      this.renderRightImage();
-
-      if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
+    if (event.target.id === game.url) {
+      addUserAnswer(true);
+      renderRightImage();
+      if (handleSubmit !== undefined) handleSubmit();
     } else {
-
       // condition for the incorrect answer
-      this.props.addUserAnswer(false);
-      this.setState({
-        answerIncorrectly: !this.state.answerIncorrectly
-      });
+      addUserAnswer(false);
+      incorrectState();
 
       setTimeout(() => {
         this.renderRightImage();
-
-        this.setState({
-          answerIncorrectly: !this.state.answerIncorrectly
-        });
-
-        if (this.props.handleSubmit !== undefined) this.props.handleSubmit();
+        incorrectState();
+        if (handleSubmit !== undefined) handleSubmit();
       }, 2000);
     }
   };
@@ -86,8 +84,12 @@ class SecondGameContainer extends Component {
     let urls = [];
 
     if (this.props.imagesObjects.length !== 0) {
-      const randomCollection1 = this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)].photos
-      const randomCollection2 = this.props.imagesObjects[randomIndex(this.props.imagesObjects.length)].photos
+      const randomCollection1 = this.props.imagesObjects[
+        randomIndex(this.props.imagesObjects.length)
+      ].photos;
+      const randomCollection2 = this.props.imagesObjects[
+        randomIndex(this.props.imagesObjects.length)
+      ].photos;
 
       urls = [
         this.props.game.url,
@@ -106,48 +108,48 @@ class SecondGameContainer extends Component {
         {this.state.name === '' ? (
           <p>loading</p>
         ) : (
+          <button
+            style={{ background: 'none', border: 'none' }}
+            onClick={this.checkForCorrect}
+          >
+            <img
+              id={urls[0]}
+              alt="dog"
+              className="dog-game-image"
+              src={urls[0]}
+            />
+          </button>
+        )}
+
+        {this.props.imagesObjects.length === 0 ? (
+          <h1>Stop</h1>
+        ) : (
+          <span>
             <button
               style={{ background: 'none', border: 'none' }}
               onClick={this.checkForCorrect}
             >
               <img
-                id={urls[0]}
+                id={urls[1]}
                 alt="dog"
                 className="dog-game-image"
-                src={urls[0]}
+                src={urls[1]}
               />
             </button>
-          )}
 
-        {this.props.imagesObjects.length === 0 ? (
-          <h1>Stop</h1>
-        ) : (
-            <span>
-              <button
-                style={{ background: 'none', border: 'none' }}
-                onClick={this.checkForCorrect}
-              >
-                <img
-                  id={urls[1]}
-                  alt="dog"
-                  className="dog-game-image"
-                  src={urls[1]}
-                />
-              </button>
-
-              <button
-                style={{ background: 'none', border: 'none' }}
-                onClick={this.checkForCorrect}
-              >
-                <img
-                  id={urls[2]}
-                  alt="dog"
-                  className="dog-game-image"
-                  src={urls[2]}
-                />
-              </button>
-            </span>
-          )}
+            <button
+              style={{ background: 'none', border: 'none' }}
+              onClick={this.checkForCorrect}
+            >
+              <img
+                id={urls[2]}
+                alt="dog"
+                className="dog-game-image"
+                src={urls[2]}
+              />
+            </button>
+          </span>
+        )}
 
         <br />
         <button className="navigation-button" onClick={this.handleSubmit}>

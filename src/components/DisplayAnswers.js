@@ -72,20 +72,20 @@ class DisplayAnswers extends React.Component {
     }
   };
 
-  render() {
-    const answersArray = () => {
-      if (Array.isArray(this.props.gameOptions))
-        return this.props.gameOptions.sort(() => Math.random() - 0.5);
-      else return ['But wait there is more!!!'];
-    };
+  answersArray = () => {
+    if (Array.isArray(this.props.gameOptions))
+      return this.props.gameOptions.sort(() => Math.random() - 0.5);
+    else return ['But wait there is more!!!'];
+  };
 
+  render() {
     return (
       <div>
         <button id="hintButton" className="hint-button" onClick={this.showHint}>
           Hint
         </button>
 
-        {answersArray().map((answer, i) => (
+        {this.answersArray().map((answer, i) => (
           <AnswerButton
             id={`${i}`}
             key={i}
