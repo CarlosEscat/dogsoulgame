@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import request from 'superagent';
 import DisplayAnswers from './DisplayAnswers';
 import SuccessRate from './SuccessRate';
-import { gameUrl, addGameOneOptions } from '../actions';
+import { gameUrl, addGameOneOptions, addAdditionBreeds } from '../actions';
 import { breedsAlreadySeen } from '../actions/BreedOrder';
 import { addDifficulty } from '../actions/addDifficulty';
 import './GameContainer.css';
@@ -35,6 +35,7 @@ class GameContainer extends Component {
       condition === true
     ) {
       this.props.addDifficulty(1);
+      this.props.addAdditionBreeds();
     }
 
     request
@@ -91,6 +92,14 @@ class GameContainer extends Component {
   render() {
     return (
       <div>
+        <button
+          onClick={() => {
+            this.props.addDifficulty(1);
+            this.props.addAdditionBreeds();
+          }}
+        >
+          Next Level
+        </button>
         <SuccessRate success={this.props.userAnswers} />
 
         <NavLink to="/">
@@ -131,5 +140,11 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
 
-  { gameUrl, breedsAlreadySeen, addDifficulty, addGameOneOptions }
+  {
+    gameUrl,
+    breedsAlreadySeen,
+    addDifficulty,
+    addGameOneOptions,
+    addAdditionBreeds
+  }
 )(GameContainer);
