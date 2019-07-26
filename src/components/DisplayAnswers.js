@@ -11,8 +11,8 @@ class DisplayAnswers extends React.Component {
   handleClick = event => {
     event.preventDefault();
 
-    const hint = document.getElementById("hint");
-    hint.textContent = "";
+    const hint = document.getElementById('hint');
+    hint.textContent = '';
 
     if (this.props.answer != null) {
       this.props.breedsAlreadySeen(this.props.answer);
@@ -49,9 +49,12 @@ class DisplayAnswers extends React.Component {
   };
 
   answersArray = () => {
-    if (Array.isArray(this.props.gameOptions))
-      return this.props.gameOptions.sort(() => Math.random() - 0.5).slice(0, 3);
-    else return ['But wait there is more!!!'];
+    if (Array.isArray(this.props.gameOptions)) {
+      const breeds = this.props.gameOptions
+        .filter(breed => this.props.answer !== breed)
+        .slice(0, 2);
+      return [...breeds, this.props.answer].sort(() => Math.random() - 0.5);
+    } else return ['But wait there is more!!!'];
   };
 
   render() {
