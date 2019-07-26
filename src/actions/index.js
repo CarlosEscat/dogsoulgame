@@ -26,10 +26,14 @@ export const addAdditionBreeds = () => (dispatch, getState) => {
   const state = getState();
 
   let arrayOfDogs = state.game.option;
-  while (state.difficulty * 3 !== arrayOfDogs.length) {
-    arrayOfDogs.push(state.breeds[randomIndex(getState().breeds.length)]);
 
-    arrayOfDogs.filter((breed, index) => arrayOfDogs.indexOf(breed) === index);
+  while (state.difficulty * 3 !== arrayOfDogs.length) {
+    const filterer = arrayOfDogs.filter(
+      (breed, index) => arrayOfDogs.indexOf(breed) === index
+    );
+    console.log(filterer.length, arrayOfDogs.length);
+
+    arrayOfDogs.push(state.breeds[randomIndex(getState().breeds.length)]);
   }
 
   dispatch({

@@ -41,15 +41,15 @@ class GameContainer extends Component {
     request
       .get(
         `https://dog.ceo/api/breed/${
-        this.props.game.option[
-        Math.floor(Math.random() * this.props.game.option.length)
-        ]
+          this.props.game.option[
+            Math.floor(Math.random() * this.props.game.option.length)
+          ]
         }/images/random`
       )
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
-          correctAnswer: res.body.message.split('/')[4]
+          correctAnswer: res.body.message.split('/')[4].split('-')[0]
         });
       })
       .catch(console.error);
@@ -91,7 +91,7 @@ class GameContainer extends Component {
 
   render() {
     return (
-      <div className='game-one'>
+      <div className="game-one">
         <button
           onClick={() => {
             this.props.addDifficulty(1);
@@ -100,27 +100,34 @@ class GameContainer extends Component {
         >
           Next Level
         </button>
-<div className='success-container'>
-        <SuccessRate success={this.props.userAnswers} />
-           </div>
+        <div className="success-container">
+          <SuccessRate
+            success={this.props.userAnswers}
+            difficulty={this.props.difficulty}
+          />
+        </div>
 
-<div className='game-one-container'>
-        <NavLink to="/">
-          <button className="navigation-button">Back</button>
-        </NavLink>
+        <div className="game-one-container">
+          <NavLink to="/">
+            <button className="navigation-button">Back</button>
+          </NavLink>
 
-        {this.showCorrectAnswer()}
+          {this.showCorrectAnswer()}
 
-        <br />
-        {this.props.game.url === '' ? (
-          <p>loading</p>
-        ) : (
-          <img alt="dog" className="dog-game-image" src={this.props.game.url} />
-        )}
-        <br />
-        <button className="navigation-button" onClick={this.handleSubmit}>
-          Next
-        </button>
+          <br />
+          {this.props.game.url === '' ? (
+            <p>loading</p>
+          ) : (
+            <img
+              alt="dog"
+              className="dog-game-image"
+              src={this.props.game.url}
+            />
+          )}
+          <br />
+          <button className="navigation-button" onClick={this.handleSubmit}>
+            Next
+          </button>
 
           <DisplayAnswers
             answer={this.props.game.correctAnswer}
@@ -129,7 +136,6 @@ class GameContainer extends Component {
             handleSubmit={this.props.handleSubmit}
           />
         </div>
-</div>
       </div>
     );
   }
