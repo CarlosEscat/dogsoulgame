@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { addUserAnswer } from "../actions/userAnswers";
-import AnswerButton from "./AnswerButton";
-import { breedsAlreadySeen } from "../actions/BreedOrder";
+import { addUserAnswer } from '../actions/userAnswers';
+import AnswerButton from './AnswerButton';
+import { breedsAlreadySeen } from '../actions/BreedOrder';
 
-import "./DisplayAnswers.css";
+import './DisplayAnswers.css';
 
 class DisplayAnswers extends React.Component {
   handleClick = event => {
@@ -42,15 +42,15 @@ class DisplayAnswers extends React.Component {
 
   showHint = () => {
     const correctAnswer = this.props.answer;
-    const hint = document.getElementById("hint");
+    const hint = document.getElementById('hint');
     hint.textContent =
-      "The correct breed has the letter: " + correctAnswer.charAt(2) + "";
+      'The correct breed has the letter: ' + correctAnswer.charAt(2) + '';
   };
 
   answersArray = () => {
     if (Array.isArray(this.props.gameOptions))
-      return this.props.gameOptions.sort(() => Math.random() - 0.5);
-    else return ["But wait there is more!!!"];
+      return this.props.gameOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+    else return ['But wait there is more!!!'];
   };
 
   render() {

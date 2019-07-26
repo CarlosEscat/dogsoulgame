@@ -49,7 +49,7 @@ class GameContainer extends Component {
       .then(res => {
         this.props.gameUrl({
           url: res.body.message,
-          correctAnswer: res.body.message.split("/")[4]
+          correctAnswer: res.body.message.split('/')[4].split('-')[0]
         });
       })
       .catch(console.error);
@@ -101,7 +101,10 @@ class GameContainer extends Component {
           Next Level
         </button>
         <div className="success-container">
-          <SuccessRate success={this.props.userAnswers} />
+          <SuccessRate
+            success={this.props.userAnswers}
+            difficulty={this.props.difficulty}
+          />
         </div>
 
         <div className="game-one-container">
@@ -112,7 +115,8 @@ class GameContainer extends Component {
           {this.showCorrectAnswer()}
 
           <br />
-          {this.props.game.url === "" ? (
+
+          {this.props.game.url === '' ? (
             <p>loading</p>
           ) : (
             <img
