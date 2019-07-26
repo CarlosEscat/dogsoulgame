@@ -42,8 +42,6 @@ export const addAdditionBreeds = () => (dispatch, getState) => {
       if (!arrayOfDogs.includes(dog)) arrayOfDogs.push(dog);
     }
 
-    console.log('finalArrayOfDogs test:', arrayOfDogs.length);
-
     dispatch({
       type: GAME_ONE_OPTIONS,
       payload: arrayOfDogs

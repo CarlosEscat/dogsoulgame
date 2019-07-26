@@ -10,6 +10,17 @@ export default class SuccessRate extends Component {
         : (successRate / answers.length) * 100
       ).toFixed(0);
 
+    let count = 0;
+    if (answers[answers.length - 1] === true) {
+      for (let i = answers.length - 1; i > 0; i--) {
+        if (answers[i] === false) break;
+        count += 1;
+      }
+    }
+
+    console.log('count', count);
+    console.log('array', answers);
+
     return {
       percentage: successRatePercentage,
       correct: successRate,
@@ -23,11 +34,11 @@ export default class SuccessRate extends Component {
     );
 
     return (
-      <div className='statistic-container'>
-        <h3 className='statistic'>Difficulty level: {this.props.difficulty}</h3>
-        <h3 className='statistic'>Success Rate: {percentage}%</h3>
-        <h3 className='statistic'>Correct: {correct}</h3>
-        <h3 className='statistic'>Wrong: {wrong}</h3>
+      <div className="statistic-container">
+        <h3 className="statistic">Difficulty level: {this.props.difficulty}</h3>
+        <h3 className="statistic">Success Rate: {percentage}%</h3>
+        <h3 className="statistic">Correct: {correct}</h3>
+        <h3 className="statistic">Wrong: {wrong}</h3>
       </div>
     );
   }
